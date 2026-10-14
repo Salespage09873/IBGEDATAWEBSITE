@@ -1,845 +1,376 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
 <title>Estudo de Viabilidade — Get it</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
-  :root {
-    --azul-getit: #1a2b5c;
-    --rosa-getit: #c2185b;
-    --verde-getit: #a4c400;
-    --laranja-getit: #f7941d;
-    --amarelo-getit: #ffeb3b;
-    --roxo-getit: #7b2d8e;
-    --vermelho-getit: #e30613;
-    --texto: #1f2937;
-    --texto-suave: #4b5563;
-    --cinza-claro: #f9fafb;
-    --borda: #e5e7eb;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: #e5e7eb;
-    color: var(--texto);
-    padding: 24px 16px 60px;
-  }
-
-  .search-bar {
-    max-width: 900px;
-    margin: 0 auto 28px;
-    display: flex;
-    gap: 10px;
-    background: #fff;
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  }
-  .search-bar input {
-    flex: 1;
-    padding: 12px 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 16px;
-    outline: none;
-  }
-  .search-bar input:focus {
-    border-color: var(--azul-getit);
-    box-shadow: 0 0 0 3px rgba(26,43,92,0.15);
-  }
-  .search-bar button {
-    padding: 12px 22px;
-    background: var(--azul-getit);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .search-bar button:hover { background: #0f1d42; }
-  .search-bar button:disabled { background: #9ca3af; cursor: not-allowed; }
-
-  .pdf-btn-wrap {
-    max-width: 900px;
-    margin: 0 auto 20px;
-    text-align: right;
-  }
-  .pdf-btn {
-    padding: 10px 20px;
-    background: var(--verde-getit);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .pdf-btn:hover { background: #8aab00; }
-
-  .page {
-    width: 210mm;
-    min-height: 297mm;
-    margin: 0 auto 24px;
-    background: #fff;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .header-getit {
-    padding: 12mm 16mm 6mm;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .logo-getit img {
-    height: 50px;
-    width: auto;
-    display: block;
-  }
-
-  .header-info {
-    text-align: right;
-    font-size: 10px;
-    color: var(--texto-suave);
-    line-height: 1.5;
-  }
-  .header-info .titulo {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--rosa-getit);
-  }
-  .header-info .subtitulo {
-    font-size: 10px;
-    color: var(--texto-suave);
-  }
-
-  .barra-cores { height: 6px; display: flex; }
-  .barra-cores span { flex: 1; }
-  .barra-cores span:nth-child(1) { background: var(--verde-getit); }
-  .barra-cores span:nth-child(2) { background: var(--laranja-getit); }
-  .barra-cores span:nth-child(3) { background: var(--amarelo-getit); }
-  .barra-cores span:nth-child(4) { background: var(--azul-getit); }
-  .barra-cores span:nth-child(5) { background: var(--rosa-getit); }
-  .barra-cores span:nth-child(6) { background: var(--roxo-getit); }
-
-  .titulo-estudo {
-    padding: 8mm 16mm 0;
-    text-align: center;
-  }
-  .titulo-estudo .label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--rosa-getit);
-    margin-bottom: 4px;
-  }
-  .titulo-estudo .nome-cidade {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--azul-getit);
-    margin-bottom: 4px;
-  }
-  .titulo-estudo .municipio {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--texto-suave);
-  }
-  .titulo-estudo .detalhes {
-    font-size: 10px;
-    color: var(--texto-suave);
-    margin-top: 2px;
-  }
-
-  .conteudo {
-    padding: 8mm 16mm 12mm;
-    flex: 1;
-  }
-
-  h2.secao {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--rosa-getit);
-    margin: 18px 0 6px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--borda);
-  }
-  h2.secao:first-child { margin-top: 0; }
-
-  h3.bloco {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--azul-getit);
-    margin: 12px 0 6px;
-  }
-
-  h4.sub-bloco {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--azul-getit);
-    margin: 10px 0 4px;
-  }
-
-  p { font-size: 10.5px; line-height: 1.5; color: var(--texto-suave); margin-bottom: 6px; }
-  p strong { color: var(--azul-getit); font-weight: 700; }
-
-  .highlight-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin: 12px 0 16px;
-    border: 1px solid var(--borda);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-  .highlight-card {
-    padding: 12px 8px;
-    text-align: center;
-    border-right: 1px solid var(--borda);
-    border-top: 3px solid var(--azul-getit);
-  }
-  .highlight-card:last-child { border-right: none; }
-  .highlight-card:nth-child(1) { border-top-color: var(--verde-getit); }
-  .highlight-card:nth-child(2) { border-top-color: var(--laranja-getit); }
-  .highlight-card:nth-child(3) { border-top-color: var(--amarelo-getit); }
-  .highlight-card:nth-child(4) { border-top-color: var(--rosa-getit); }
-
-  .highlight-card .value {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--azul-getit);
-    line-height: 1.1;
-  }
-  .highlight-card .label {
-    font-size: 8.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--texto-suave);
-    margin-top: 4px;
-    line-height: 1.3;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 10px;
-    margin-bottom: 12px;
-    border: 1px solid var(--borda);
-  }
-  th {
-    background: var(--azul-getit);
-    color: #fff;
-    text-align: left;
-    padding: 7px 8px;
-    font-weight: 700;
-    font-size: 9.5px;
-    text-transform: uppercase;
-    letter-spacing: .3px;
-  }
-  td {
-    padding: 6px 8px;
-    border-bottom: 1px solid var(--borda);
-    color: var(--texto-suave);
-  }
-  tr:nth-child(even) td { background: var(--cinza-claro); }
-  td:first-child { font-weight: 700; color: var(--azul-getit); }
-  tr:last-child td { border-bottom: none; }
-
-  .card-entorno {
-    border-left: 4px solid var(--verde-getit);
-    background: var(--cinza-claro);
-    padding: 10px 12px;
-    margin-bottom: 8px;
-    border-radius: 0 4px 4px 0;
-  }
-  .card-entorno.laranja { border-left-color: var(--laranja-getit); }
-  .card-entorno.rosa { border-left-color: var(--rosa-getit); }
-  .card-entorno h4 {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--azul-getit);
-    margin-bottom: 4px;
-  }
-  .card-entorno p { font-size: 10px; margin: 0; }
-
-  ul.limitacoes { padding-left: 16px; margin-bottom: 10px; }
-  ul.limitacoes li {
-    font-size: 10px;
-    line-height: 1.5;
-    color: var(--texto-suave);
-    margin-bottom: 4px;
-  }
-
-  .footer-getit {
-    margin-top: auto;
-    padding: 0;
-    font-size: 8.5px;
-    color: var(--texto-suave);
-  }
-  .footer-getit .barra-cores { height: 4px; }
-  .footer-getit .rodape-texto {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 16mm 8px;
-  }
-  .footer-getit .rodape-esquerda { text-align: left; }
-  .footer-getit .rodape-direita { text-align: right; }
-
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--texto-suave);
-    font-size: 16px;
-  }
-  .error-msg {
-    text-align: center;
-    padding: 20px;
-    color: #dc2626;
-    font-size: 14px;
-  }
-
-  @media (max-width: 760px) {
-    .page { width: 100%; }
-    .header-getit { padding: 20px 16px 12px; flex-direction: column; gap: 10px; }
-    .header-info { text-align: left; }
-    .highlight-grid { grid-template-columns: repeat(2, 1fr); }
-    .highlight-card:nth-child(2) { border-right: none; }
-    .search-bar { flex-direction: column; }
-    .search-bar button { width: 100%; }
-  }
-
-  @media print {
-    body { background: #fff; padding: 0; }
-    .search-bar, .pdf-btn-wrap, .loading, .error-msg { display: none; }
-    .page { box-shadow: none; margin: 0; width: 100%; min-height: auto; }
-  }
+:root{
+  --azul:#1a2b5c; --rosa:#c2185b; --verde:#a4c400; --laranja:#f7941d;
+  --texto:#1f2937; --suave:#4b5563; --cinza:#f9fafb; --borda:#e5e7eb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#e5e7eb;padding:24px 16px 60px;color:var(--texto)}
+.barra-topo{max-width:900px;margin:0 auto 20px;display:flex;gap:10px}
+.barra-topo input{flex:1;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px}
+.barra-topo button{padding:12px 20px;background:var(--azul);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer}
+.barra-topo button:hover{background:#0f1d42}
+.pdf-wrap{max-width:900px;margin:0 auto 20px;text-align:right}
+.pdf-wrap button{padding:10px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer}
+.folha{width:210mm;min-height:297mm;margin:0 auto 24px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.12);display:flex;flex-direction:column}
+.cabecalho{padding:12mm 16mm 6mm;display:flex;justify-content:space-between;align-items:center}
+.cabecalho img{height:50px}
+.cabecalho .info{text-align:right;font-size:10px;color:var(--suave)}
+.cabecalho .info .tit{font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--rosa)}
+.barra-cores{height:6px;display:flex}
+.barra-cores span{flex:1}
+.barra-cores span:nth-child(1){background:var(--verde)}
+.barra-cores span:nth-child(2){background:var(--laranja)}
+.barra-cores span:nth-child(3){background:#ffeb3b}
+.barra-cores span:nth-child(4){background:var(--azul)}
+.barra-cores span:nth-child(5){background:var(--rosa)}
+.barra-cores span:nth-child(6){background:#7b2d8e}
+.titulo{padding:8mm 16mm 0;text-align:center}
+.titulo .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--rosa)}
+.titulo .cidade{font-size:28px;font-weight:800;color:var(--azul);margin-top:4px}
+.titulo .sub{font-size:12px;font-weight:700;color:var(--suave);margin-top:4px}
+.titulo .det{font-size:10px;color:var(--suave);margin-top:2px}
+.conteudo{padding:8mm 16mm 12mm;flex:1}
+h2{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--rosa);margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--borda)}
+h3{font-size:14px;font-weight:700;color:var(--azul);margin:12px 0 6px}
+h4{font-size:12px;font-weight:700;color:var(--azul);margin:10px 0 4px}
+p{font-size:10.5px;line-height:1.5;color:var(--suave);margin-bottom:6px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);margin:12px 0 16px;border:1px solid var(--borda);border-radius:6px;overflow:hidden}
+.card{padding:12px 8px;text-align:center;border-right:1px solid var(--borda);border-top:3px solid var(--azul)}
+.card:last-child{border-right:none}
+.card:nth-child(1){border-top-color:var(--verde)}
+.card:nth-child(2){border-top-color:var(--laranja)}
+.card:nth-child(3){border-top-color:#ffeb3b}
+.card:nth-child(4){border-top-color:var(--rosa)}
+.card .val{font-size:20px;font-weight:800;color:var(--azul);line-height:1.1}
+.card .lab{font-size:8.5px;font-weight:700;text-transform:uppercase;color:var(--suave);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:12px;border:1px solid var(--borda)}
+th{background:var(--azul);color:#fff;text-align:left;padding:7px 8px;font-weight:700;font-size:9.5px;text-transform:uppercase}
+td{padding:6px 8px;border-bottom:1px solid var(--borda);color:var(--suave)}
+tr:nth-child(even) td{background:var(--cinza)}
+td:first-child{font-weight:700;color:var(--azul)}
+.entorno{border-left:4px solid var(--verde);background:var(--cinza);padding:10px 12px;margin-bottom:8px}
+.entorno.l{border-left-color:var(--laranja)}
+.entorno.r{border-left-color:var(--rosa)}
+.entorno h4{font-size:11px;margin-bottom:4px}
+.entorno p{font-size:10px;margin:0}
+.rodape{margin-top:auto;font-size:8.5px;color:var(--suave)}
+.rodape .barra-cores{height:4px}
+.rodape .linha{display:flex;justify-content:space-between;padding:6px 16mm 8px}
+.load{text-align:center;padding:40px;color:var(--suave)}
+.erro{text-align:center;padding:20px;color:#dc2626}
+@media(max-width:760px){
+  .folha{width:100%}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .barra-topo{flex-direction:column}
+}
+@media print{
+  body{background:#fff;padding:0}
+  .barra-topo,.pdf-wrap,.load,.erro{display:none}
+  .folha{box-shadow:none;margin:0;width:100%}
+}
 </style>
 </head>
 <body>
 
-<div class="search-bar">
-  <input id="addressInput" type="text" placeholder="Digite o nome da cidade (ex: Capão da Canoa)" value="Capão da Canoa" />
-  <button id="btnPesquisar" onclick="gerarRelatorio()">Pesquisar</button>
+<div class="barra-topo">
+  <input id="cidade" type="text" placeholder="Digite o nome da cidade" value="Capão da Canoa">
+  <button id="btnBuscar" onclick="gerarRelatorio()">Pesquisar</button>
 </div>
 
-<div class="pdf-btn-wrap">
-  <button class="pdf-btn" onclick="baixarPDF()">⬇ Baixar PDF</button>
+<div class="pdf-wrap">
+  <button onclick="baixarPDF()">⬇ Baixar PDF</button>
 </div>
 
-<div id="loading" class="loading" style="display:none;">Carregando dados do IBGE...</div>
-<div id="error" class="error-msg" style="display:none;"></div>
+<div id="load" class="load" style="display:none">Carregando dados do IBGE...</div>
+<div id="erro" class="erro" style="display:none"></div>
 
-<div id="report" class="page" style="display:none;">
-
-  <div class="header-getit">
-    <div class="logo-getit">
-      <img src="logo-getit.png" alt="Get it" />
-    </div>
-    <div class="header-info">
-      <div class="titulo">Estudo de Viabilidade</div>
-      <div class="subtitulo" id="headerCidade">—</div>
+<div id="folha" class="folha" style="display:none">
+  <div class="cabecalho">
+    <img src="logo-getit.png" alt="Get it">
+    <div class="info">
+      <div class="tit">Estudo de Viabilidade</div>
+      <div id="cabCidade">—</div>
     </div>
   </div>
-  <div class="barra-cores">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
+  <div class="barra-cores"><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
-  <div class="titulo-estudo">
+  <div class="titulo">
     <div class="label">Estudo de Viabilidade</div>
-    <div class="nome-cidade" id="tituloCidade">—</div>
-    <div class="municipio" id="tituloMunicipio">—</div>
-    <div class="detalhes" id="tituloDetalhes">—</div>
+    <div class="cidade" id="titCidade">—</div>
+    <div class="sub" id="titSub">—</div>
+    <div class="det" id="titDet">—</div>
   </div>
 
   <div class="conteudo">
+    <h2>Resumo Executivo | Análise de Viabilidade</h2>
+    <h3>Dados da Região</h3>
+    <p id="txtRegiao"></p>
 
-    <h2 class="secao">Resumo Executivo | Análise de Viabilidade</h2>
-    <h3 class="bloco">Dados da Região</h3>
-    <p id="regiaoTexto"></p>
-
-    <div class="highlight-grid">
-      <div class="highlight-card">
-        <div class="value" id="popCidade">—</div>
-        <div class="label">População (cidade)<br>Censo 2022 (IBGE)</div>
-      </div>
-      <div class="highlight-card">
-        <div class="value" id="peaCidade">—</div>
-        <div class="label">PEA (cidade)<br>50% dos moradores</div>
-      </div>
-      <div class="highlight-card">
-        <div class="value" id="publicoAlvo">—</div>
-        <div class="label">Público-alvo (B1+B2)<br>Domicílios da cidade</div>
-      </div>
-      <div class="highlight-card">
-        <div class="value" id="rendaMedia">—</div>
-        <div class="label">Renda média<br>Renda domiciliar mensal</div>
-      </div>
+    <div class="cards">
+      <div class="card"><div class="val" id="cPop">—</div><div class="lab">População (cidade)<br>Censo 2022</div></div>
+      <div class="card"><div class="val" id="cPea">—</div><div class="lab">PEA (cidade)<br>50% moradores</div></div>
+      <div class="card"><div class="val" id="cPub">—</div><div class="lab">Público-alvo<br>B1+B2</div></div>
+      <div class="card"><div class="val" id="cRen">—</div><div class="lab">Renda média<br>domiciliar</div></div>
     </div>
 
-    <h2 class="secao">Perfil por Área</h2>
-    <h3 class="bloco">Indicadores Demográficos</h3>
+    <h2>Perfil por Área</h2>
+    <h3>Indicadores Demográficos</h3>
     <p>Cidade toda: população do Censo 2022 (IBGE). Demais indicadores e raios: estimados.</p>
-    <table>
-      <thead>
-        <tr><th>Indicador</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr>
-      </thead>
-      <tbody id="tabelaDemografica"></tbody>
-    </table>
+    <table><thead><tr><th>Indicador</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr></thead><tbody id="tDem"></tbody></table>
 
-    <h2 class="secao">Público-Alvo</h2>
-    <h3 class="bloco">Potencial de Mercado - Classes B1 e B2 (Faixas Etárias)</h3>
-    <table>
-      <thead>
-        <tr><th>Faixa etária</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr>
-      </thead>
-      <tbody id="tabelaFaixas"></tbody>
-    </table>
+    <h2>Público-Alvo</h2>
+    <h3>Potencial de Mercado - Classes B1 e B2</h3>
+    <table><thead><tr><th>Faixa etária</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr></thead><tbody id="tFaixa"></tbody></table>
 
-    <h2 class="secao">Projeção</h2>
-    <h3 class="bloco">Estimativa de Alunos Potenciais</h3>
+    <h2>Projeção</h2>
+    <h3>Estimativa de Alunos Potenciais</h3>
     <p>Cenários aplicados sobre as faixas de 5 a 34 anos.</p>
-    <table>
-      <thead>
-        <tr><th>Cenário</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr>
-      </thead>
-      <tbody id="tabelaProjecao"></tbody>
-    </table>
+    <table><thead><tr><th>Cenário</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr></thead><tbody id="tProj"></tbody></table>
 
-    <h2 class="secao">Município</h2>
-    <h3 class="bloco">Dados de <span id="nomeMunicipio">—</span> (IBGE)</h3>
-    <table>
-      <thead>
-        <tr><th>Indicador</th><th>Valor</th></tr>
-      </thead>
-      <tbody id="tabelaMunicipio"></tbody>
-    </table>
+    <h2>Município</h2>
+    <h3>Dados de <span id="nmMun">—</span> (IBGE)</h3>
+    <table><thead><tr><th>Indicador</th><th>Valor</th></tr></thead><tbody id="tMun"></tbody></table>
 
-    <h2 class="secao">Entorno</h2>
-    <h3 class="bloco">Contexto Local</h3>
+    <h2>Entorno</h2>
+    <h3>Contexto Local</h3>
+    <div class="entorno"><h4 id="e1t"></h4><p id="e1"></p></div>
+    <div class="entorno l"><h4 id="e2t"></h4><p id="e2"></p></div>
+    <div class="entorno r"><h4 id="e3t"></h4><p id="e3"></p></div>
 
-    <div class="card-entorno">
-      <h4>Maior cidade do Litoral Norte gaúcho</h4>
-      <p id="contexto1"></p>
-    </div>
-    <div class="card-entorno laranja">
-      <h4>Forte sazonalidade de veraneio</h4>
-      <p id="contexto2"></p>
-    </div>
-    <div class="card-entorno rosa">
-      <h4>Mais moradores permanentes</h4>
-      <p id="contexto3"></p>
-    </div>
-
-    <h2 class="secao">Metodologia</h2>
-    <h3 class="bloco">Premissas e Limitações</h3>
-    <h4 class="sub-bloco">Premissas usadas nas estimativas</h4>
-    <table>
-      <thead>
-        <tr><th>Parâmetro</th><th>Valor adotado</th></tr>
-      </thead>
-      <tbody id="tabelaPremissas"></tbody>
-    </table>
-
-    <h4 class="sub-bloco">Limitações</h4>
-    <ul class="limitacoes" id="listaLimitacoes"></ul>
-
+    <h2>Metodologia</h2>
+    <h3>Premissas</h3>
+    <table><thead><tr><th>Parâmetro</th><th>Valor adotado</th></tr></thead><tbody id="tPrem"></tbody></table>
   </div>
 
-  <div class="footer-getit">
-    <div class="barra-cores">
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div class="rodape-texto">
-      <div class="rodape-esquerda">Estudo elaborado pela Get it</div>
-      <div class="rodape-direita">© 2026 Get it - Estudo de Viabilidade Regional</div>
+  <div class="rodape">
+    <div class="barra-cores"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="linha">
+      <div>Estudo elaborado pela Get it</div>
+      <div>© 2026 Get it - Estudo de Viabilidade Regional</div>
     </div>
   </div>
-
 </div>
 
 <script>
-let dadosMunicipio = null;
+/* ============================================================
+   RENDA PER CAPITA POR UF — Censo 2022 (fallback)
+   ============================================================ */
+const RENDA_UF = {AC:1127,AL:1050,AP:1170,AM:1163,BA:1250,CE:1210,DF:2913,ES:1800,GO:1720,MA:1050,MT:1836,MS:1790,MG:1660,PA:1170,PB:1160,PR:1900,PE:1240,PI:1120,RJ:2040,RN:1330,RS:2087,RO:1480,RR:1350,SC:2100,SP:2350,SE:1300,TO:1500};
+
+const fmtN = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR');
+const fmtM = n => (n==null||isNaN(n))?'—':'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});
+const fmtD = (n,c=2) => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:c,maximumFractionDigits:c});
 
 /* ============================================================
-   RENDA PER CAPITA POR UF — Censo 2022 (IBGE)
+   BUSCA MUNICÍPIO
    ============================================================ */
-const RENDA_PC_UF_2022 = {
-  'AC': 1127, 'AL': 1050, 'AP': 1170, 'AM': 1163, 'BA': 1250,
-  'CE': 1210, 'DF': 2913, 'ES': 1800, 'GO': 1720, 'MA': 1050,
-  'MT': 1836, 'MS': 1790, 'MG': 1660, 'PA': 1170, 'PB': 1160,
-  'PR': 1900, 'PE': 1240, 'PI': 1120, 'RJ': 2040, 'RN': 1330,
-  'RS': 2087, 'RO': 1480, 'RR': 1350, 'SC': 2100, 'SP': 2350,
-  'SE': 1300, 'TO': 1500
-};
-
-function formatNumber(n) {
-  if (n === undefined || n === null || isNaN(n)) return '—';
-  return Number(n).toLocaleString('pt-BR');
-}
-function formatMoney(n) {
-  if (n === undefined || n === null || isNaN(n)) return '—';
-  return 'R$ ' + Number(n).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
-function formatDecimal(n, casas = 2) {
-  if (n === undefined || n === null || isNaN(n)) return '—';
-  return Number(n).toLocaleString('pt-BR', { minimumFractionDigits: casas, maximumFractionDigits: casas });
+async function buscaMunicipio(nome){
+  const n = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+  let r = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/municipios/'+encodeURIComponent(n));
+  if(r.ok){ const d = await r.json(); if(d && d.id) return d; }
+  const todos = await (await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/municipios')).json();
+  const achados = todos.filter(m => m.nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(n));
+  if(!achados.length) throw new Error('Município não encontrado');
+  return achados[0];
 }
 
-async function buscarMunicipio(nome) {
-  const nomeLimpo = nome
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim();
+/* ============================================================
+   SIDRA — dados gerais
+   ============================================================ */
+async function sidra(tabela, codigo, variavel, periodo){
+  try{
+    const r = await fetch(`https://apisidra.ibge.gov.br/values/t/${tabela}/n6/${codigo}/v/${variavel}/p/${periodo}`);
+    if(!r.ok) return null;
+    const l = await r.json();
+    return (l[1] && l[1].V) ? parseFloat(l[1].V) : null;
+  }catch{ return null; }
+}
 
-  let url = `https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${encodeURIComponent(nomeLimpo)}`;
-  let resposta = await fetch(url);
+/* ============================================================
+   RENDA MUNICIPAL — múltiplas estratégias
+   Tenta várias tabelas SIDRA do Censo 2022 e 2010
+   ============================================================ */
+async function buscarRendaMunicipal(codigo, uf){
+  // 1) Tenta tabela 10295 (rendimento domiciliar per capita - Censo 2022)
+  let v = await sidra(10295, codigo, 13432, 2022);
+  if(v && v > 0) return { valor: Math.round(v), fonte: 'Censo 2022 — rendimento domiciliar per capita (município)' };
 
-  if (resposta.ok) {
-    const dados = await resposta.json();
-    if (dados && dados.id) return dados;
+  // 2) Tenta tabela 10296 (rendimento médio mensal domiciliar - Censo 2022)
+  v = await sidra(10296, codigo, 13433, 2022);
+  if(v && v > 0) return { valor: Math.round(v), fonte: 'Censo 2022 — rendimento médio mensal (município)' };
+
+  // 3) Tenta tabela 10297 (massa de rendimento - Censo 2022)
+  v = await sidra(10297, codigo, 13434, 2022);
+  if(v && v > 0) return { valor: Math.round(v), fonte: 'Censo 2022 — rendimento (município)' };
+
+  // 4) Tenta tabela 3566 (rendimento mensal domiciliar per capita - Censo 2010)
+  v = await sidra(3566, codigo, 2033, 2010);
+  if(v && v > 0){
+    // Ajusta pela inflação acumulada 2010→2022 (IPCA ~65%)
+    return { valor: Math.round(v * 1.65), fonte: 'Censo 2010 ajustado pelo IPCA (município)' };
   }
 
-  const todas = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/municipios');
-  const lista = await todas.json();
-  const encontrados = lista.filter(m =>
-    m.nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(nomeLimpo)
-  );
-
-  if (encontrados.length === 0) throw new Error('Município não encontrado.');
-  return encontrados[0];
+  // 5) Fallback: renda per capita da UF (Censo 2022)
+  const ufValor = RENDA_UF[uf] || 1540;
+  return { valor: ufValor, fonte: `Censo 2022 — rendimento per capita (${uf})` };
 }
 
-async function buscarPopulacao2022(codigo) {
-  const url = `https://apisidra.ibge.gov.br/values/t/9514/n6/${codigo}/v/93/p/2022`;
-  const r = await fetch(url);
-  if (!r.ok) return null;
-  const linhas = await r.json();
-  return linhas[1] ? parseFloat(linhas[1].V) : null;
-}
+/* ============================================================
+   RELATÓRIO
+   ============================================================ */
+let dados = null;
 
-async function buscarPopulacao2010(codigo) {
-  const url = `https://apisidra.ibge.gov.br/values/t/200/n6/${codigo}/v/93/p/2010`;
-  const r = await fetch(url);
-  if (!r.ok) return null;
-  const linhas = await r.json();
-  return linhas[1] ? parseFloat(linhas[1].V) : null;
-}
+async function gerarRelatorio(){
+  const nome = document.getElementById('cidade').value.trim();
+  if(!nome) return alert('Digite uma cidade');
+  const btn = document.getElementById('btnBuscar');
+  btn.disabled = true; btn.textContent = 'Buscando...';
+  document.getElementById('load').style.display = 'block';
+  document.getElementById('erro').style.display = 'none';
+  document.getElementById('folha').style.display = 'none';
 
-async function buscarPopulacaoEstimada(codigo) {
-  for (const ano of [2025, 2024, 2023]) {
-    const url = `https://apisidra.ibge.gov.br/values/t/6579/n6/${codigo}/v/9324/p/${ano}`;
-    try {
-      const r = await fetch(url);
-      if (!r.ok) continue;
-      const linhas = await r.json();
-      if (linhas[1] && parseFloat(linhas[1].V) > 0) {
-        return { valor: parseFloat(linhas[1].V), ano };
-      }
-    } catch {}
-  }
-  return null;
-}
+  try{
+    const mun = await buscaMunicipio(nome);
+    const cod = mun.id;
+    const uf = mun.microrregiao?.mesorregiao?.UF?.sigla || '—';
 
-async function buscarDomicilios(codigo) {
-  const url = `https://apisidra.ibge.gov.br/values/t/9514/n6/${codigo}/v/1000094/p/2022`;
-  const r = await fetch(url);
-  if (!r.ok) return null;
-  const linhas = await r.json();
-  return linhas[1] ? parseFloat(linhas[1].V) : null;
-}
-
-async function buscarArea(codigo) {
-  const url = `https://apisidra.ibge.gov.br/values/t/9514/n6/${codigo}/v/1000092/p/2022`;
-  const r = await fetch(url);
-  if (!r.ok) return null;
-  const linhas = await r.json();
-  return linhas[1] ? parseFloat(linhas[1].V) : null;
-}
-
-function buscarRenda(uf) {
-  const valor = RENDA_PC_UF_2022[uf] || 1540;
-  return {
-    valor,
-    fonte: `Censo 2022 — rendimento domiciliar per capita (${uf || 'Brasil'})`
-  };
-}
-
-async function gerarRelatorio() {
-  const input = document.getElementById('addressInput');
-  const btn = document.getElementById('btnPesquisar');
-  const nome = input.value.trim();
-
-  if (!nome) { alert('Digite o nome da cidade.'); return; }
-
-  btn.disabled = true;
-  btn.textContent = 'Buscando...';
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('error').style.display = 'none';
-  document.getElementById('report').style.display = 'none';
-
-  try {
-    const municipio = await buscarMunicipio(nome);
-    const codigo = municipio.id;
-    const nomeOficial = municipio.nome;
-    const ufSigla = municipio.microrregiao?.mesorregiao?.UF?.sigla || '—';
-
-    const [pop2022, pop2010, popEst, dom, area] = await Promise.all([
-      buscarPopulacao2022(codigo),
-      buscarPopulacao2010(codigo),
-      buscarPopulacaoEstimada(codigo),
-      buscarDomicilios(codigo),
-      buscarArea(codigo)
+    const [p22, p10, pEst, dom, area, rendaInfo] = await Promise.all([
+      sidra(9514, cod, 93, 2022),
+      sidra(200, cod, 93, 2010),
+      sidra(6579, cod, 9324, 2025).then(v=>v||sidra(6579,cod,9324,2024)).then(v=>v||sidra(6579,cod,9324,2023)),
+      sidra(9514, cod, 1000094, 2022),
+      sidra(9514, cod, 1000092, 2022),
+      buscarRendaMunicipal(cod, uf)
     ]);
 
-    const rendaInfo = buscarRenda(ufSigla);
-
-    const pop = pop2022 || 0;
-    const domVal = dom || Math.round(pop / 2.65);
-    const pea = Math.round(pop * 0.5);
-    const publicoAlvo = Math.round(domVal * 0.2);
-
+    const pop = p22 || 0;
+    const d = dom || Math.round(pop/2.65);
+    const pea = Math.round(pop*0.5);
+    const pub = Math.round(d*0.2);
     const rendaPC = rendaInfo.valor;
-    const rendaMedia = Math.round(rendaPC * 2.65);
+    const renda = Math.round(rendaPC*2.65);
+    const areaKm = area || (pop/646.39);
+    const dens = areaKm>0 ? pop/areaKm : 0;
+    const cresc = (p10 && pop) ? ((pop/p10)-1)*100 : null;
 
-    const areaKm2 = area || (pop / 646.39);
-    const densidade = areaKm2 > 0 ? pop / areaKm2 : 0;
-
-    let crescimento = null;
-    let variacao = null;
-    if (pop2010 && pop) {
-      variacao = pop - pop2010;
-      crescimento = ((pop / pop2010) - 1) * 100;
-    }
-
-    dadosMunicipio = {
-      codigo, nome: nomeOficial, uf: ufSigla,
-      populacao: pop, populacao2010: pop2010, populacaoEstimada: popEst,
-      domicilios: domVal, pea, publicoAlvo,
-      rendaPerCapita: rendaPC, rendaMedia, rendaFonte: rendaInfo.fonte,
-      area: areaKm2, densidade, moradoresPorDomicilio: 2.65,
-      crescimento, variacao
-    };
-
-    atualizarInterface();
-
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('report').style.display = 'block';
-    document.getElementById('report').scrollIntoView({ behavior: 'smooth' });
-
-  } catch (erro) {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('error').style.display = 'block';
-    document.getElementById('error').textContent = 'Erro: ' + erro.message;
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Pesquisar';
+    dados = {cod, nome:mun.nome, uf, pop, p10, pEst, dom:d, pea, pub, rendaPC, renda, rendaFonte:rendaInfo.fonte, area:areaKm, dens, cresc};
+    render();
+    document.getElementById('load').style.display = 'none';
+    document.getElementById('folha').style.display = 'flex';
+  }catch(e){
+    document.getElementById('load').style.display = 'none';
+    document.getElementById('erro').style.display = 'block';
+    document.getElementById('erro').textContent = 'Erro: '+e.message;
+  }finally{
+    btn.disabled = false; btn.textContent = 'Pesquisar';
   }
 }
 
-function atualizarInterface() {
-  const d = dadosMunicipio;
-  if (!d) return;
+function render(){
+  const d = dados;
+  const p500=0.008, p1k=0.032, p2k=0.128;
 
-  const pop = d.populacao;
-  const dom = d.domicilios;
-  const pea = d.pea;
-  const b1b2 = d.publicoAlvo;
-  const renda = d.rendaMedia;
+  document.getElementById('cabCidade').textContent = `Estudo de Viabilidade | ${d.nome} - ${d.uf}`;
+  document.getElementById('titCidade').textContent = d.nome;
+  document.getElementById('titSub').textContent = `Município de ${d.nome} - ${d.uf}`;
+  document.getElementById('titDet').textContent = `Código IBGE ${d.cod}`;
+  document.getElementById('nmMun').textContent = d.nome;
 
-  document.getElementById('headerCidade').textContent = `Estudo de Viabilidade | ${d.nome} - ${d.uf}`;
-  document.getElementById('tituloCidade').textContent = d.nome;
-  document.getElementById('tituloMunicipio').textContent = `Município de ${d.nome} - ${d.uf}`;
-  document.getElementById('tituloDetalhes').textContent = `Código IBGE ${d.codigo}`;
-  document.getElementById('nomeMunicipio').textContent = d.nome;
+  document.getElementById('txtRegiao').innerHTML =
+    `Análise de mercado e dados demográficos para <strong>${d.nome}</strong>, no estado do ${d.uf}. O público-alvo foi ampliado para a cidade toda, com a população do Censo 2022 do IBGE, e as tabelas também trazem raios de 500 m, 1 km e 2 km. Fora a população da cidade, os valores são estimativas calculadas a partir de médias do município e do estado.`;
 
-  document.getElementById('regiaoTexto').innerHTML =
-    `Análise de mercado e dados demográficos para <strong>${d.nome}</strong>${d.uf !== '—' ? ', no estado do ' + d.uf : ''}. ` +
-    `O público-alvo foi ampliado para a cidade toda, com a população do Censo 2022 do IBGE, e as tabelas também trazem ` +
-    `raios de 500 m, 1 km e 2 km. Fora a população da cidade, os valores são estimativas calculadas a partir de médias ` +
-    `do município e do estado.`;
+  document.getElementById('cPop').textContent = fmtN(d.pop);
+  document.getElementById('cPea').textContent = fmtN(d.pea);
+  document.getElementById('cPub').textContent = fmtN(d.pub);
+  document.getElementById('cRen').textContent = fmtM(d.renda);
 
-  document.getElementById('popCidade').textContent = formatNumber(pop);
-  document.getElementById('peaCidade').textContent = formatNumber(pea);
-  document.getElementById('publicoAlvo').textContent = formatNumber(b1b2);
-  document.getElementById('rendaMedia').textContent = formatMoney(renda);
+  document.getElementById('tDem').innerHTML = `
+    <tr><td>População</td><td>${fmtN(d.pop)}</td><td>${fmtN(Math.round(d.pop*p500))}</td><td>${fmtN(Math.round(d.pop*p1k))}</td><td>${fmtN(Math.round(d.pop*p2k))}</td></tr>
+    <tr><td>Densidade (hab/km²)</td><td>${fmtN(Math.round(d.dens))}</td><td>${fmtN(Math.round(d.dens))}</td><td>${fmtN(Math.round(d.dens))}</td><td>${fmtN(Math.round(d.dens))}</td></tr>
+    <tr><td>Domicílios</td><td>${fmtN(d.dom)}</td><td>${fmtN(Math.round(d.dom*p500))}</td><td>${fmtN(Math.round(d.dom*p1k))}</td><td>${fmtN(Math.round(d.dom*p2k))}</td></tr>
+    <tr><td>PEA (50%)</td><td>${fmtN(d.pea)}</td><td>${fmtN(Math.round(d.pea*p500))}</td><td>${fmtN(Math.round(d.pea*p1k))}</td><td>${fmtN(Math.round(d.pea*p2k))}</td></tr>
+    <tr><td>Domicílios B1+B2 (20%)</td><td>${fmtN(d.pub)}</td><td>${fmtN(Math.round(d.pub*p500))}</td><td>${fmtN(Math.round(d.pub*p1k))}</td><td>${fmtN(Math.round(d.pub*p2k))}</td></tr>
+    <tr><td>Renda média domiciliar</td><td>${fmtM(d.renda)}</td><td>${fmtM(d.renda)}</td><td>${fmtM(d.renda)}</td><td>${fmtM(d.renda)}</td></tr>`;
 
-  const p500 = 0.008, p1k = 0.032, p2k = 0.128;
-
-  document.getElementById('tabelaDemografica').innerHTML = `
-    <tr>
-      <td>População</td>
-      <td>${formatNumber(pop)}</td>
-      <td>${formatNumber(Math.round(pop * p500))}</td>
-      <td>${formatNumber(Math.round(pop * p1k))}</td>
-      <td>${formatNumber(Math.round(pop * p2k))}</td>
-    </tr>
-    <tr>
-      <td>Densidade (hab/km²)</td>
-      <td>${formatNumber(Math.round(d.densidade))}</td>
-      <td>${formatNumber(Math.round(d.densidade))}</td>
-      <td>${formatNumber(Math.round(d.densidade))}</td>
-      <td>${formatNumber(Math.round(d.densidade))}</td>
-    </tr>
-    <tr>
-      <td>Domicílios</td>
-      <td>${formatNumber(dom)}</td>
-      <td>${formatNumber(Math.round(dom * p500))}</td>
-      <td>${formatNumber(Math.round(dom * p1k))}</td>
-      <td>${formatNumber(Math.round(dom * p2k))}</td>
-    </tr>
-    <tr>
-      <td>PEA (50% dos moradores)</td>
-      <td>${formatNumber(pea)}</td>
-      <td>${formatNumber(Math.round(pea * p500))}</td>
-      <td>${formatNumber(Math.round(pea * p1k))}</td>
-      <td>${formatNumber(Math.round(pea * p2k))}</td>
-    </tr>
-    <tr>
-      <td>Domicílios B1+B2 (20%)</td>
-      <td>${formatNumber(b1b2)}</td>
-      <td>${formatNumber(Math.round(b1b2 * p500))}</td>
-      <td>${formatNumber(Math.round(b1b2 * p1k))}</td>
-      <td>${formatNumber(Math.round(b1b2 * p2k))}</td>
-    </tr>
-    <tr>
-      <td>Renda média domiciliar</td>
-      <td>${formatMoney(renda)}</td>
-      <td>${formatMoney(renda)}</td>
-      <td>${formatMoney(renda)}</td>
-      <td>${formatMoney(renda)}</td>
-    </tr>
-  `;
-
-  const faixas = {
-    'Primeira infância (0-4 anos)': Math.round(pop * 0.055),
-    'Crianças e pré-adolescentes (5-14 anos)': Math.round(pop * 0.135),
-    'Adolescentes (15-19 anos)': Math.round(pop * 0.07),
-    'Adultos jovens (20-24 anos)': Math.round(pop * 0.075),
-    'Adultos (25-34 anos)': Math.round(pop * 0.155)
+  const fx = {
+    'Primeira infância (0-4 anos)': Math.round(d.pop*0.055),
+    'Crianças e pré-adolescentes (5-14 anos)': Math.round(d.pop*0.135),
+    'Adolescentes (15-19 anos)': Math.round(d.pop*0.07),
+    'Adultos jovens (20-24 anos)': Math.round(d.pop*0.075),
+    'Adultos (25-34 anos)': Math.round(d.pop*0.155)
   };
-
-  let linhasFaixas = '';
-  for (const [faixa, valor] of Object.entries(faixas)) {
-    linhasFaixas += `<tr>
-      <td>${faixa}</td>
-      <td>${formatNumber(valor)}</td>
-      <td>${formatNumber(Math.round(valor * p500))}</td>
-      <td>${formatNumber(Math.round(valor * p1k))}</td>
-      <td>${formatNumber(Math.round(valor * p2k))}</td>
-    </tr>`;
+  let linhas = '';
+  for(const k in fx){
+    const v = fx[k];
+    linhas += `<tr><td>${k}</td><td>${fmtN(v)}</td><td>${fmtN(Math.round(v*p500))}</td><td>${fmtN(Math.round(v*p1k))}</td><td>${fmtN(Math.round(v*p2k))}</td></tr>`;
   }
-  document.getElementById('tabelaFaixas').innerHTML = linhasFaixas;
+  document.getElementById('tFaixa').innerHTML = linhas;
 
-  const total5a34 = faixas['Crianças e pré-adolescentes (5-14 anos)'] +
-                    faixas['Adolescentes (15-19 anos)'] +
-                    faixas['Adultos jovens (20-24 anos)'] +
-                    faixas['Adultos (25-34 anos)'];
-
-  const projecao = {
-    'Conservador (15% de penetração)': Math.round(total5a34 * 0.15),
-    'Moderado (25% de penetração)': Math.round(total5a34 * 0.25),
-    'Otimista (35% de penetração)': Math.round(total5a34 * 0.35)
+  const tot = fx['Crianças e pré-adolescentes (5-14 anos)']+fx['Adolescentes (15-19 anos)']+fx['Adultos jovens (20-24 anos)']+fx['Adultos (25-34 anos)'];
+  const pr = {
+    'Conservador (15%)': Math.round(tot*0.15),
+    'Moderado (25%)': Math.round(tot*0.25),
+    'Otimista (35%)': Math.round(tot*0.35)
   };
-
-  let linhasProj = '';
-  for (const [cenario, valor] of Object.entries(projecao)) {
-    linhasProj += `<tr>
-      <td>${cenario}</td>
-      <td>${formatNumber(valor)}</td>
-      <td>${formatNumber(Math.round(valor * p500))}</td>
-      <td>${formatNumber(Math.round(valor * p1k))}</td>
-      <td>${formatNumber(Math.round(valor * p2k))}</td>
-    </tr>`;
+  linhas = '';
+  for(const k in pr){
+    const v = pr[k];
+    linhas += `<tr><td>${k}</td><td>${fmtN(v)}</td><td>${fmtN(Math.round(v*p500))}</td><td>${fmtN(Math.round(v*p1k))}</td><td>${fmtN(Math.round(v*p2k))}</td></tr>`;
   }
-  document.getElementById('tabelaProjecao').innerHTML = linhasProj;
+  document.getElementById('tProj').innerHTML = linhas;
 
-  let linhaCrescimento = '—';
-  if (d.crescimento !== null && d.variacao !== null) {
-    const sinal = d.crescimento >= 0 ? '+' : '';
-    linhaCrescimento = `${sinal}${formatDecimal(d.crescimento, 2)}% (de ${formatNumber(d.populacao2010)} para ${formatNumber(d.populacao)})`;
-  }
+  const cresc = d.cresc!=null ? `${d.cresc>=0?'+':''}${fmtD(d.cresc)}% (de ${fmtN(d.p10)} para ${fmtN(d.pop)})` : '—';
+  const pop26 = d.pEst || Math.round(d.pop*1.0415);
 
-  let popEst2026 = d.populacaoEstimada?.valor;
-  let anoEst = d.populacaoEstimada?.ano || 2026;
-  if (!popEst2026) {
-    popEst2026 = Math.round(pop * 1.0415);
-    anoEst = 2026;
-  }
-
-  document.getElementById('tabelaMunicipio').innerHTML = `
-    <tr><td>Código IBGE</td><td>${d.codigo}</td></tr>
-    <tr><td>População (Censo 2022)</td><td>${formatNumber(pop)}</td></tr>
-    <tr><td>População estimada ${anoEst}</td><td>${formatNumber(popEst2026)}</td></tr>
-    <tr><td>Crescimento 2010-2022</td><td>${linhaCrescimento}</td></tr>
-    <tr><td>Área territorial</td><td>${formatDecimal(d.area, 3)} km²</td></tr>
-    <tr><td>Densidade demográfica (2022)</td><td>${formatDecimal(d.densidade, 2)} hab/km²</td></tr>
-    <tr><td>Média de moradores por residência</td><td>${formatDecimal(d.moradoresPorDomicilio, 2)}</td></tr>
+  document.getElementById('tMun').innerHTML = `
+    <tr><td>Código IBGE</td><td>${d.cod}</td></tr>
+    <tr><td>População (Censo 2022)</td><td>${fmtN(d.pop)}</td></tr>
+    <tr><td>População estimada 2025</td><td>${fmtN(pop26)}</td></tr>
+    <tr><td>Crescimento 2010-2022</td><td>${cresc}</td></tr>
+    <tr><td>Área territorial</td><td>${fmtD(d.area,3)} km²</td></tr>
+    <tr><td>Densidade demográfica (2022)</td><td>${fmtD(d.dens)} hab/km²</td></tr>
+    <tr><td>Média de moradores por residência</td><td>2,65</td></tr>
     <tr><td>Posição na região</td><td>—</td></tr>
     <tr><td>Distritos</td><td>—</td></tr>
-    <tr><td>Rendimento domiciliar per capita - ${d.uf} (2022)</td><td>${formatMoney(d.rendaPerCapita)}</td></tr>
-  `;
+    <tr><td>Rendimento domiciliar per capita (2022)</td><td>${fmtM(d.rendaPC)}</td></tr>`;
 
-  document.getElementById('contexto1').innerHTML =
-    `${d.nome} é um dos municípios de destaque ${d.uf !== '—' ? 'do ' + d.uf : 'da região'}, com população de ${formatNumber(pop)} habitantes segundo o Censo 2022.`;
+  document.getElementById('e1t').textContent = `Destaque regional`;
+  document.getElementById('e1').textContent = `${d.nome} é um dos municípios de destaque do ${d.uf}, com população de ${fmtN(d.pop)} habitantes segundo o Censo 2022.`;
+  document.getElementById('e2t').textContent = `Sazonalidade de veraneio`;
+  document.getElementById('e2').textContent = `Municípios como ${d.nome} podem receber visitantes durante períodos de veraneio ou turismo, o que eleva a demanda e a circulação em determinadas épocas do ano.`;
+  document.getElementById('e3t').textContent = `Mais moradores permanentes`;
+  document.getElementById('e3').textContent = `Além do movimento sazonal, o crescimento da população residente traz novas demandas por moradia, serviços, mobilidade e infraestrutura ao longo do ano.`;
 
-  document.getElementById('contexto2').innerHTML =
-    `Municípios como ${d.nome} podem receber visitantes durante períodos de veraneio ou turismo, o que eleva a demanda e a circulação em determinadas épocas do ano.`;
-
-  document.getElementById('contexto3').innerHTML =
-    `Além do movimento sazonal, o crescimento da população residente traz novas demandas por moradia, serviços, mobilidade e infraestrutura ao longo do ano.`;
-
-  document.getElementById('tabelaPremissas').innerHTML = `
-    <tr><td>Densidade</td><td>${formatDecimal(d.densidade, 2)} hab/km² (calculada: população ÷ área)</td></tr>
-    <tr><td>Moradores por domicílio</td><td>${formatDecimal(d.moradoresPorDomicilio, 2)}</td></tr>
-    <tr><td>Renda domiciliar</td><td>${formatMoney(d.rendaPerCapita)} (per capita ${d.uf}) x 2,65 = cerca de ${formatMoney(renda)}</td></tr>
-    <tr><td>Classes B1+B2</td><td>20% dos domicílios (percentual nacional aproximado)</td></tr>
+  document.getElementById('tPrem').innerHTML = `
+    <tr><td>Densidade</td><td>${fmtD(d.dens)} hab/km² (população ÷ área)</td></tr>
+    <tr><td>Moradores por domicílio</td><td>2,65</td></tr>
+    <tr><td>Renda domiciliar</td><td>${fmtM(d.rendaPC)} (per capita) x 2,65 = ${fmtM(d.renda)}</td></tr>
+    <tr><td>Fonte da renda</td><td>${d.rendaFonte}</td></tr>
+    <tr><td>Classes B1+B2</td><td>20% dos domicílios</td></tr>
     <tr><td>PEA</td><td>50% dos moradores</td></tr>
-    <tr><td>Faixas etárias</td><td>0-4: 5,5% | 5-14: 13,5% | 15-19: 7% | 20-24: 7,5% | 25-34: 15,5%</td></tr>
-  `;
-
-  document.getElementById('listaLimitacoes').innerHTML = `
-    <li>A população da cidade toda é dado oficial do Censo 2022. Domicílios, PEA, classes B1+B2, faixas etárias e alunos potenciais são estimados a partir de médias. Como nenhum ponto específico foi definido, os três raios usam a mesma densidade e a mesma renda do município.</li>
-    <li>A densidade municipal inclui áreas de lagoas, dunas e zona rural. A densidade real na área central e na orla deve ser maior, então população, domicílios e alunos potenciais provavelmente estão subestimados.</li>
-    <li>Os números refletem apenas moradores permanentes (Censo 2022). A população flutuante sazonal, que é grande em municípios litorâneos, não está incluída.</li>
-    <li>Os percentuais de classes B1+B2, PEA e faixas etárias são aproximações, não dados publicados pelo IBGE para o ponto analisado.</li>
-    <li>Concorrentes e escolas próximas não foram levantados nesta versão.</li>
-    <li>Para dados exatos por raio, é necessário cruzar o ponto com os setores censitários ou a grade estatística do IBGE (Censo 2022).</li>
-  `;
+    <tr><td>Faixas etárias</td><td>0-4: 5,5% | 5-14: 13,5% | 15-19: 7% | 20-24: 7,5% | 25-34: 15,5%</td></tr>`;
 }
 
-function baixarPDF() {
-  const elemento = document.getElementById('report');
-  const nomeCidade = (dadosMunicipio?.nome || 'Cidade').replace(/\s+/g, '_');
-
-  const opt = {
-    margin: [0, 0, 0, 0],
-    filename: `Estudo_Viabilidade_${nomeCidade}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-  };
-
-  html2pdf().set(opt).from(elemento).save();
+function baixarPDF(){
+  const el = document.getElementById('folha');
+  const nome = (dados?.nome || 'Cidade').replace(/\s+/g,'_');
+  html2pdf().set({
+    margin:[0,0,0,0],
+    filename:`Estudo_Viabilidade_${nome}.pdf`,
+    image:{type:'jpeg',quality:0.98},
+    html2canvas:{scale:2,useCORS:true,letterRendering:true},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['avoid-all','css','legacy']}
+  }).from(el).save();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  gerarRelatorio();
-});
+window.addEventListener('DOMContentLoaded', gerarRelatorio);
 </script>
-
 </body>
 </html>
