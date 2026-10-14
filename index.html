@@ -3,16 +3,29 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Estudo de Viabilidade — IBGE</title>
-
+<title>Estudo de Viabilidade — Get it</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+  :root {
+    --azul-getit: #1a2b5c;
+    --rosa-getit: #c2185b;
+    --verde-getit: #4caf50;
+    --laranja-getit: #ff9800;
+    --amarelo-getit: #ffeb3b;
+    --roxo-getit: #9c27b0;
+    --texto: #1f2937;
+    --texto-suave: #4b5563;
+    --cinza-claro: #f9fafb;
+    --borda: #e5e7eb;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: #f3f4f6;
-    color: #1f2937;
+    background: #e5e7eb;
+    color: var(--texto);
     padding: 24px 16px 60px;
   }
 
@@ -34,19 +47,21 @@
     font-size: 16px;
     outline: none;
   }
-  .search-bar input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+  .search-bar input:focus {
+    border-color: var(--azul-getit);
+    box-shadow: 0 0 0 3px rgba(26,43,92,0.15);
+  }
   .search-bar button {
     padding: 12px 22px;
-    background: #2563eb;
+    background: var(--azul-getit);
     color: #fff;
     border: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background .2s;
   }
-  .search-bar button:hover { background: #1d4ed8; }
+  .search-bar button:hover { background: #0f1d42; }
   .search-bar button:disabled { background: #9ca3af; cursor: not-allowed; }
 
   .pdf-btn-wrap {
@@ -56,7 +71,7 @@
   }
   .pdf-btn {
     padding: 10px 20px;
-    background: #059669;
+    background: var(--verde-getit);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -64,99 +79,235 @@
     font-weight: 600;
     cursor: pointer;
   }
-  .pdf-btn:hover { background: #047857; }
+  .pdf-btn:hover { background: #388e3c; }
 
   .page {
     width: 210mm;
     min-height: 297mm;
     margin: 0 auto 24px;
     background: #fff;
-    padding: 18mm 16mm;
     box-shadow: 0 4px 18px rgba(0,0,0,0.12);
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
-  h1 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #111827; }
-  h2 {
-    font-size: 14px;
+  .header-getit {
+    padding: 14mm 16mm 8mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--borda);
+  }
+  .logo-getit {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .logo-getit .g1 { color: var(--verde-getit); }
+  .logo-getit .e  { color: var(--laranja-getit); }
+  .logo-getit .t  { color: var(--azul-getit); }
+  .logo-getit .i  { color: var(--rosa-getit); }
+  .logo-getit .t2 { color: var(--roxo-getit); }
+
+  .header-info {
+    text-align: right;
+    font-size: 10px;
+    color: var(--texto-suave);
+    line-height: 1.5;
+  }
+  .header-info .titulo {
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .5px;
-    color: #1e3a8a;
-    border-bottom: 2px solid #1e3a8a;
-    padding-bottom: 4px;
-    margin: 22px 0 10px;
+    letter-spacing: 1px;
+    color: var(--rosa-getit);
   }
-  h2:first-of-type { margin-top: 0; }
-  h3 { font-size: 13px; font-weight: 700; color: #374151; margin: 14px 0 6px; }
-  p { font-size: 11.5px; line-height: 1.55; color: #374151; margin-bottom: 8px; }
+  .header-info .subtitulo {
+    font-size: 10px;
+    color: var(--texto-suave);
+  }
+
+  .barra-cores { height: 6px; display: flex; }
+  .barra-cores span { flex: 1; }
+  .barra-cores span:nth-child(1) { background: var(--verde-getit); }
+  .barra-cores span:nth-child(2) { background: var(--laranja-getit); }
+  .barra-cores span:nth-child(3) { background: var(--amarelo-getit); }
+  .barra-cores span:nth-child(4) { background: var(--azul-getit); }
+  .barra-cores span:nth-child(5) { background: var(--rosa-getit); }
+  .barra-cores span:nth-child(6) { background: var(--roxo-getit); }
+
+  .titulo-estudo {
+    padding: 8mm 16mm 0;
+    text-align: center;
+  }
+  .titulo-estudo .label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--rosa-getit);
+    margin-bottom: 4px;
+  }
+  .titulo-estudo .nome-cidade {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--azul-getit);
+    margin-bottom: 4px;
+  }
+  .titulo-estudo .municipio {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--texto-suave);
+  }
+  .titulo-estudo .detalhes {
+    font-size: 10px;
+    color: var(--texto-suave);
+    margin-top: 2px;
+  }
+
+  .conteudo {
+    padding: 8mm 16mm 12mm;
+    flex: 1;
+  }
+
+  h2.secao {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--rosa-getit);
+    margin: 18px 0 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--borda);
+  }
+  h2.secao:first-child { margin-top: 0; }
+
+  h3.bloco {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--azul-getit);
+    margin: 12px 0 6px;
+  }
+
+  h4.sub-bloco {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--azul-getit);
+    margin: 10px 0 4px;
+  }
+
+  p { font-size: 10.5px; line-height: 1.5; color: var(--texto-suave); margin-bottom: 6px; }
+  p strong { color: var(--azul-getit); font-weight: 700; }
 
   .highlight-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin: 12px 0 18px;
+    gap: 0;
+    margin: 12px 0 16px;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    overflow: hidden;
   }
   .highlight-card {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    padding: 10px 8px;
+    padding: 12px 8px;
     text-align: center;
+    border-right: 1px solid var(--borda);
+    border-top: 3px solid var(--azul-getit);
   }
+  .highlight-card:last-child { border-right: none; }
+  .highlight-card:nth-child(1) { border-top-color: var(--verde-getit); }
+  .highlight-card:nth-child(2) { border-top-color: var(--laranja-getit); }
+  .highlight-card:nth-child(3) { border-top-color: var(--amarelo-getit); }
+  .highlight-card:nth-child(4) { border-top-color: var(--rosa-getit); }
+
   .highlight-card .value {
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 800;
-    color: #1e3a8a;
-    line-height: 1.2;
+    color: var(--azul-getit);
+    line-height: 1.1;
   }
   .highlight-card .label {
-    font-size: 9px;
-    font-weight: 600;
+    font-size: 8.5px;
+    font-weight: 700;
     text-transform: uppercase;
-    color: #4b5563;
+    color: var(--texto-suave);
     margin-top: 4px;
-    letter-spacing: .3px;
+    line-height: 1.3;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 10.5px;
+    font-size: 10px;
     margin-bottom: 12px;
+    border: 1px solid var(--borda);
   }
   th {
-    background: #1e3a8a;
+    background: var(--azul-getit);
     color: #fff;
     text-align: left;
-    padding: 6px 8px;
-    font-weight: 600;
-    font-size: 10px;
+    padding: 7px 8px;
+    font-weight: 700;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: .3px;
   }
   td {
-    padding: 5px 8px;
-    border-bottom: 1px solid #e5e7eb;
-    color: #374151;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--borda);
+    color: var(--texto-suave);
   }
-  tr:nth-child(even) td { background: #f9fafb; }
-  td:first-child { font-weight: 600; color: #111827; }
+  tr:nth-child(even) td { background: var(--cinza-claro); }
+  td:first-child { font-weight: 700; color: var(--azul-getit); }
+  tr:last-child td { border-bottom: none; }
 
-  ul { padding-left: 18px; margin-bottom: 10px; }
-  li { font-size: 11px; line-height: 1.5; color: #374151; margin-bottom: 5px; }
+  .card-entorno {
+    border-left: 4px solid var(--verde-getit);
+    background: var(--cinza-claro);
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border-radius: 0 4px 4px 0;
+  }
+  .card-entorno.laranja { border-left-color: var(--laranja-getit); }
+  .card-entorno.rosa { border-left-color: var(--rosa-getit); }
+  .card-entorno h4 {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--azul-getit);
+    margin-bottom: 4px;
+  }
+  .card-entorno p { font-size: 10px; margin: 0; }
 
-  .footer {
-    margin-top: 26px;
-    padding-top: 10px;
-    border-top: 1px solid #e5e7eb;
-    font-size: 9px;
-    color: #6b7280;
+  ul.limitacoes { padding-left: 16px; margin-bottom: 10px; }
+  ul.limitacoes li {
+    font-size: 10px;
     line-height: 1.5;
+    color: var(--texto-suave);
+    margin-bottom: 4px;
   }
+
+  .footer-getit {
+    margin-top: auto;
+    padding: 0;
+    font-size: 8.5px;
+    color: var(--texto-suave);
+  }
+  .footer-getit .barra-cores { height: 4px; }
+  .footer-getit .rodape-texto {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 16mm 8px;
+  }
+  .footer-getit .rodape-esquerda { text-align: left; }
+  .footer-getit .rodape-direita { text-align: right; }
 
   .loading {
     text-align: center;
     padding: 40px;
-    color: #6b7280;
+    color: var(--texto-suave);
     font-size: 16px;
   }
   .error-msg {
@@ -167,8 +318,11 @@
   }
 
   @media (max-width: 760px) {
-    .page { width: 100%; padding: 20px 14px; }
+    .page { width: 100%; }
+    .header-getit { padding: 20px 16px 12px; flex-direction: column; gap: 10px; }
+    .header-info { text-align: left; }
     .highlight-grid { grid-template-columns: repeat(2, 1fr); }
+    .highlight-card:nth-child(2) { border-right: none; }
     .search-bar { flex-direction: column; }
     .search-bar button { width: 100%; }
   }
@@ -176,19 +330,14 @@
   @media print {
     body { background: #fff; padding: 0; }
     .search-bar, .pdf-btn-wrap, .loading, .error-msg { display: none; }
-    .page { box-shadow: none; margin: 0; width: 100%; min-height: auto; padding: 14mm; }
+    .page { box-shadow: none; margin: 0; width: 100%; min-height: auto; }
   }
 </style>
 </head>
 <body>
 
 <div class="search-bar">
-  <input
-    id="addressInput"
-    type="text"
-    placeholder="Digite o nome da cidade (ex: Capão da Canoa)"
-    value="Capão da Canoa"
-  />
+  <input id="addressInput" type="text" placeholder="Digite o nome da cidade (ex: Capão da Canoa)" value="Capão da Canoa" />
   <button id="btnPesquisar" onclick="gerarRelatorio()">Pesquisar</button>
 </div>
 
@@ -201,126 +350,139 @@
 
 <div id="report" class="page" style="display:none;">
 
-  <h1>RESUMO EXECUTIVO | ANÁLISE DE VIABILIDADE</h1>
-  <h3>Dados da Região</h3>
-  <p id="regiaoTexto"></p>
+  <div class="header-getit">
+    <div class="logo-getit">
+      <span class="g1">g</span><span class="e">e</span><span class="t">t</span><span class="i">i</span><span class="t2">t</span>
+    </div>
+    <div class="header-info">
+      <div class="titulo">Estudo de Viabilidade</div>
+      <div class="subtitulo" id="headerCidade">—</div>
+    </div>
+  </div>
+  <div class="barra-cores">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
 
-  <div class="highlight-grid">
-    <div class="highlight-card">
-      <div class="value" id="popCidade">—</div>
-      <div class="label">População (cidade)<br>Censo 2022 (IBGE)</div>
+  <div class="titulo-estudo">
+    <div class="label">Estudo de Viabilidade</div>
+    <div class="nome-cidade" id="tituloCidade">—</div>
+    <div class="municipio" id="tituloMunicipio">—</div>
+    <div class="detalhes" id="tituloDetalhes">—</div>
+  </div>
+
+  <div class="conteudo">
+
+    <h2 class="secao">Resumo Executivo | Análise de Viabilidade</h2>
+    <h3 class="bloco">Dados da Região</h3>
+    <p id="regiaoTexto"></p>
+
+    <div class="highlight-grid">
+      <div class="highlight-card">
+        <div class="value" id="popCidade">—</div>
+        <div class="label">População (cidade)<br>Censo 2022 (IBGE)</div>
+      </div>
+      <div class="highlight-card">
+        <div class="value" id="peaCidade">—</div>
+        <div class="label">PEA (cidade)<br>50% dos moradores</div>
+      </div>
+      <div class="highlight-card">
+        <div class="value" id="publicoAlvo">—</div>
+        <div class="label">Público-alvo (B1+B2)<br>Domicílios da cidade</div>
+      </div>
+      <div class="highlight-card">
+        <div class="value" id="rendaMedia">—</div>
+        <div class="label">Renda média<br>Renda domiciliar mensal</div>
+      </div>
     </div>
-    <div class="highlight-card">
-      <div class="value" id="peaCidade">—</div>
-      <div class="label">PEA (cidade)<br>50% dos moradores</div>
+
+    <h2 class="secao">Perfil por Área</h2>
+    <h3 class="bloco">Indicadores Demográficos</h3>
+    <p>Cidade toda: população do Censo 2022 (IBGE). Demais indicadores e raios: estimados.</p>
+    <table>
+      <thead>
+        <tr><th>Indicador</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr>
+      </thead>
+      <tbody id="tabelaDemografica"></tbody>
+    </table>
+
+    <h2 class="secao">Público-Alvo</h2>
+    <h3 class="bloco">Potencial de Mercado - Classes B1 e B2 (Faixas Etárias)</h3>
+    <table>
+      <thead>
+        <tr><th>Faixa etária</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr>
+      </thead>
+      <tbody id="tabelaFaixas"></tbody>
+    </table>
+
+    <h2 class="secao">Projeção</h2>
+    <h3 class="bloco">Estimativa de Alunos Potenciais</h3>
+    <p>Cenários aplicados sobre as faixas de 5 a 34 anos.</p>
+    <table>
+      <thead>
+        <tr><th>Cenário</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr>
+      </thead>
+      <tbody id="tabelaProjecao"></tbody>
+    </table>
+
+    <h2 class="secao">Município</h2>
+    <h3 class="bloco">Dados de <span id="nomeMunicipio">—</span> (IBGE)</h3>
+    <table>
+      <thead>
+        <tr><th>Indicador</th><th>Valor</th></tr>
+      </thead>
+      <tbody id="tabelaMunicipio"></tbody>
+    </table>
+
+    <h2 class="secao">Entorno</h2>
+    <h3 class="bloco">Contexto Local</h3>
+
+    <div class="card-entorno">
+      <h4>Maior cidade do Litoral Norte gaúcho</h4>
+      <p id="contexto1"></p>
     </div>
-    <div class="highlight-card">
-      <div class="value" id="publicoAlvo">—</div>
-      <div class="label">Público-alvo (B1+B2)<br>Domicílios da cidade</div>
+    <div class="card-entorno laranja">
+      <h4>Forte sazonalidade de veraneio</h4>
+      <p id="contexto2"></p>
     </div>
-    <div class="highlight-card">
-      <div class="value" id="rendaMedia">—</div>
-      <div class="label">Renda média<br>Renda domiciliar mensal</div>
+    <div class="card-entorno rosa">
+      <h4>Mais moradores permanentes</h4>
+      <p id="contexto3"></p>
+    </div>
+
+    <h2 class="secao">Metodologia</h2>
+    <h3 class="bloco">Premissas e Limitações</h3>
+    <h4 class="sub-bloco">Premissas usadas nas estimativas</h4>
+    <table>
+      <thead>
+        <tr><th>Parâmetro</th><th>Valor adotado</th></tr>
+      </thead>
+      <tbody id="tabelaPremissas"></tbody>
+    </table>
+
+    <h4 class="sub-bloco">Limitações</h4>
+    <ul class="limitacoes" id="listaLimitacoes"></ul>
+
+  </div>
+
+  <div class="footer-getit">
+    <div class="barra-cores">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="rodape-texto">
+      <div class="rodape-esquerda">Estudo elaborado pela Get it</div>
+      <div class="rodape-direita">© 2026 Get it - Estudo de Viabilidade Regional</div>
     </div>
   </div>
 
-  <h2>PERFIL POR ÁREA</h2>
-  <h3>Indicadores Demográficos</h3>
-  <p>Cidade toda: população do Censo 2022 (IBGE). Demais indicadores e raios: estimados.</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Indicador</th>
-        <th>Cidade toda</th>
-        <th>500 m</th>
-        <th>1 km</th>
-        <th>2 km</th>
-      </tr>
-    </thead>
-    <tbody id="tabelaDemografica"></tbody>
-  </table>
-
-  <h2>PÚBLICO-ALVO</h2>
-  <h3>Potencial de Mercado - Classes B1 e B2 (Faixas Etárias)</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Faixa etária</th>
-        <th>Cidade toda</th>
-        <th>500 m</th>
-        <th>1 km</th>
-        <th>2 km</th>
-      </tr>
-    </thead>
-    <tbody id="tabelaFaixas"></tbody>
-  </table>
-
-  <h2>PROJEÇÃO</h2>
-  <h3>Estimativa de Alunos Potenciais</h3>
-  <p>Cenários aplicados sobre as faixas de 5 a 34 anos.</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Cenário</th>
-        <th>Cidade toda</th>
-        <th>500 m</th>
-        <th>1 km</th>
-        <th>2 km</th>
-      </tr>
-    </thead>
-    <tbody id="tabelaProjecao"></tbody>
-  </table>
-
-  <h2>MUNICÍPIO</h2>
-  <h3>Dados de <span id="nomeMunicipio">—</span> (IBGE)</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Indicador</th>
-        <th>Valor</th>
-      </tr>
-    </thead>
-    <tbody id="tabelaMunicipio"></tbody>
-  </table>
-
-  <h2>ENTORNO</h2>
-  <h3>Contexto Local</h3>
-  <h3 id="entorno1Titulo">Maior cidade do Litoral Norte gaúcho</h3>
-  <p id="contexto1"></p>
-  <h3>Forte sazonalidade de veraneio</h3>
-  <p id="contexto2"></p>
-  <h3>Mais moradores permanentes</h3>
-  <p id="contexto3"></p>
-
-  <h2>METODOLOGIA</h2>
-  <h3>Premissas e Limitações</h3>
-  <p><strong>Premissas usadas nas estimativas</strong></p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Parâmetro</th>
-        <th>Valor adotado</th>
-      </tr>
-    </thead>
-    <tbody id="tabelaPremissas"></tbody>
-  </table>
-
-  <h3>Limitações</h3>
-  <ul id="listaLimitacoes"></ul>
-
-  <div class="footer" id="rodape"></div>
 </div>
 
 <script>
 let dadosMunicipio = null;
 
 /* ============================================================
-   RENDA PER CAPITA POR UF (Censo 2022 - valores oficiais)
-   Usado como fallback quando a API SIDRA 3566 (2010) não serve
+   RENDA PER CAPITA POR UF — Censo 2022 (IBGE)
    ============================================================ */
-const RENDA_PC_POR_UF = {
+const RENDA_PC_UF_2022 = {
   'AC': 1127, 'AL': 1050, 'AP': 1170, 'AM': 1163, 'BA': 1250,
   'CE': 1210, 'DF': 2913, 'ES': 1800, 'GO': 1720, 'MA': 1050,
   'MT': 1836, 'MS': 1790, 'MG': 1660, 'PA': 1170, 'PB': 1160,
@@ -396,14 +558,21 @@ async function buscarPopulacao2010(codigo) {
 }
 
 /* ============================================================
-   API SIDRA — POPULAÇÃO ESTIMADA 2026 (Tabela 7360, variável 93)
+   API SIDRA — POPULAÇÃO ESTIMADA (Tabela 6579, variável 9324)
    ============================================================ */
 async function buscarPopulacaoEstimada(codigo) {
-  const url = `https://apisidra.ibge.gov.br/values/t/7360/n6/${codigo}/v/93/p/2026`;
-  const r = await fetch(url);
-  if (!r.ok) return null;
-  const linhas = await r.json();
-  return linhas[1] ? parseFloat(linhas[1].V) : null;
+  for (const ano of [2025, 2024, 2023]) {
+    const url = `https://apisidra.ibge.gov.br/values/t/6579/n6/${codigo}/v/9324/p/${ano}`;
+    try {
+      const r = await fetch(url);
+      if (!r.ok) continue;
+      const linhas = await r.json();
+      if (linhas[1] && parseFloat(linhas[1].V) > 0) {
+        return { valor: parseFloat(linhas[1].V), ano };
+      }
+    } catch {}
+  }
+  return null;
 }
 
 /* ============================================================
@@ -429,48 +598,14 @@ async function buscarArea(codigo) {
 }
 
 /* ============================================================
-   API SIDRA — RENDA PER CAPITA (Tabela 10295, variável 13432)
-   Censo 2022: rendimento domiciliar per capita
+   RENDA — Censo 2022 por UF
    ============================================================ */
-async function buscarRendaPerCapita2022(codigo) {
-  // Tabela 10295 do Censo 2022 - Rendimento domiciliar per capita
-  const url = `https://apisidra.ibge.gov.br/values/t/10295/n6/${codigo}/v/13432/p/2022`;
-  try {
-    const r = await fetch(url);
-    if (!r.ok) return null;
-    const linhas = await r.json();
-    return linhas[1] ? parseFloat(linhas[1].V) : null;
-  } catch { return null; }
-}
-
-/* ============================================================
-   BUSCA DE RENDA COM MÚLTIPLAS ESTRATÉGIAS
-   ============================================================ */
-async function buscarRenda(codigo, uf) {
-  // 1ª tentativa: Censo 2022 (tabela 10295)
-  let renda = await buscarRendaPerCapita2022(codigo);
-  if (renda && renda > 0) return { valor: renda, fonte: 'Censo 2022' };
-
-  // 2ª tentativa: tabela 3566 (2010) - ajustada pela inflação (IPCA ~65% de 2010 a 2022)
-  try {
-    const r = await fetch(`https://apisidra.ibge.gov.br/values/t/3566/n6/${codigo}/v/2033/p/2010`);
-    if (r.ok) {
-      const linhas = await r.json();
-      if (linhas[1]) {
-        const valor2010 = parseFloat(linhas[1].V);
-        // Ajuste inflacionário aproximado 2010→2022 (~65%)
-        return { valor: Math.round(valor2010 * 1.65), fonte: 'Estimativa (base 2010 + IPCA)' };
-      }
-    }
-  } catch {}
-
-  // 3ª tentativa: média da UF (Censo 2022)
-  if (uf && RENDA_PC_POR_UF[uf]) {
-    return { valor: RENDA_PC_POR_UF[uf], fonte: `Média ${uf} (Censo 2022)` };
-  }
-
-  // Fallback final: média nacional
-  return { valor: 1540, fonte: 'Média nacional (Censo 2022)' };
+function buscarRenda(uf) {
+  const valor = RENDA_PC_UF_2022[uf] || 1540;
+  return {
+    valor,
+    fonte: `Censo 2022 — rendimento domiciliar per capita (${uf || 'Brasil'})`
+  };
 }
 
 /* ============================================================
@@ -495,28 +630,27 @@ async function gerarRelatorio() {
     const nomeOficial = municipio.nome;
     const ufSigla = municipio.microrregiao?.mesorregiao?.UF?.sigla || '—';
 
-    const [pop2022, pop2010, popEst, dom, area, rendaInfo] = await Promise.all([
+    const [pop2022, pop2010, popEst, dom, area] = await Promise.all([
       buscarPopulacao2022(codigo),
       buscarPopulacao2010(codigo),
       buscarPopulacaoEstimada(codigo),
       buscarDomicilios(codigo),
-      buscarArea(codigo),
-      buscarRenda(codigo, ufSigla)
+      buscarArea(codigo)
     ]);
+
+    const rendaInfo = buscarRenda(ufSigla);
 
     const pop = pop2022 || 0;
     const domVal = dom || Math.round(pop / 2.65);
     const pea = Math.round(pop * 0.5);
     const publicoAlvo = Math.round(domVal * 0.2);
 
-    // Renda domiciliar = renda per capita × moradores por domicílio (2,65)
     const rendaPC = rendaInfo.valor;
     const rendaMedia = Math.round(rendaPC * 2.65);
 
     const areaKm2 = area || (pop / 646.39);
     const densidade = areaKm2 > 0 ? pop / areaKm2 : 0;
 
-    // Crescimento 2010-2022
     let crescimento = null;
     let variacao = null;
     if (pop2010 && pop) {
@@ -573,10 +707,14 @@ function atualizarInterface() {
   const b1b2 = d.publicoAlvo;
   const renda = d.rendaMedia;
 
+  document.getElementById('headerCidade').textContent = `Estudo de Viabilidade | ${d.nome} - ${d.uf}`;
+  document.getElementById('tituloCidade').textContent = d.nome;
+  document.getElementById('tituloMunicipio').textContent = `Município de ${d.nome} - ${d.uf}`;
+  document.getElementById('tituloDetalhes').textContent = `Código IBGE ${d.codigo}`;
   document.getElementById('nomeMunicipio').textContent = d.nome;
 
   document.getElementById('regiaoTexto').innerHTML =
-    `Análise de mercado e dados demográficos para <strong>${d.nome}</strong>, ${d.uf !== '—' ? 'no estado do ' + d.uf : 'no Brasil'}. ` +
+    `Análise de mercado e dados demográficos para <strong>${d.nome}</strong>${d.uf !== '—' ? ', no estado do ' + d.uf : ''}. ` +
     `O público-alvo foi ampliado para a cidade toda, com a população do Censo 2022 do IBGE, e as tabelas também trazem ` +
     `raios de 500 m, 1 km e 2 km. Fora a população da cidade, os valores são estimativas calculadas a partir de médias ` +
     `do município e do estado.`;
@@ -676,24 +814,23 @@ function atualizarInterface() {
   }
   document.getElementById('tabelaProjecao').innerHTML = linhasProj;
 
-  // Monta linha de crescimento
   let linhaCrescimento = '—';
   if (d.crescimento !== null && d.variacao !== null) {
     const sinal = d.crescimento >= 0 ? '+' : '';
     linhaCrescimento = `${sinal}${formatDecimal(d.crescimento, 2)}% (de ${formatNumber(d.populacao2010)} para ${formatNumber(d.populacao)})`;
   }
 
-  // População estimada 2026
-  let popEst2026 = d.populacaoEstimada;
+  let popEst2026 = d.populacaoEstimada?.valor;
+  let anoEst = d.populacaoEstimada?.ano || 2026;
   if (!popEst2026) {
-    // fallback: projeção simples de 4,15% ao ano (média nacional)
     popEst2026 = Math.round(pop * 1.0415);
+    anoEst = 2026;
   }
 
   document.getElementById('tabelaMunicipio').innerHTML = `
     <tr><td>Código IBGE</td><td>${d.codigo}</td></tr>
     <tr><td>População (Censo 2022)</td><td>${formatNumber(pop)}</td></tr>
-    <tr><td>População estimada 2026</td><td>${formatNumber(popEst2026)}</td></tr>
+    <tr><td>População estimada ${anoEst}</td><td>${formatNumber(popEst2026)}</td></tr>
     <tr><td>Crescimento 2010-2022</td><td>${linhaCrescimento}</td></tr>
     <tr><td>Área territorial</td><td>${formatDecimal(d.area, 3)} km²</td></tr>
     <tr><td>Densidade demográfica (2022)</td><td>${formatDecimal(d.densidade, 2)} hab/km²</td></tr>
@@ -715,7 +852,7 @@ function atualizarInterface() {
   document.getElementById('tabelaPremissas').innerHTML = `
     <tr><td>Densidade</td><td>${formatDecimal(d.densidade, 2)} hab/km² (calculada: população ÷ área)</td></tr>
     <tr><td>Moradores por domicílio</td><td>${formatDecimal(d.moradoresPorDomicilio, 2)}</td></tr>
-    <tr><td>Renda domiciliar</td><td>${formatMoney(d.rendaPerCapita)} (per capita ${d.uf}) x 2,65 = cerca de ${formatMoney(renda)} — Fonte: ${d.rendaFonte}</td></tr>
+    <tr><td>Renda domiciliar</td><td>${formatMoney(d.rendaPerCapita)} (per capita ${d.uf}) x 2,65 = cerca de ${formatMoney(renda)}</td></tr>
     <tr><td>Classes B1+B2</td><td>20% dos domicílios (percentual nacional aproximado)</td></tr>
     <tr><td>PEA</td><td>50% dos moradores</td></tr>
     <tr><td>Faixas etárias</td><td>0-4: 5,5% | 5-14: 13,5% | 15-19: 7% | 20-24: 7,5% | 25-34: 15,5%</td></tr>
@@ -729,9 +866,6 @@ function atualizarInterface() {
     <li>Concorrentes e escolas próximas não foram levantados nesta versão.</li>
     <li>Para dados exatos por raio, é necessário cruzar o ponto com os setores censitários ou a grade estatística do IBGE (Censo 2022).</li>
   `;
-
-  document.getElementById('rodape').innerHTML =
-    `Fontes: IBGE (Censo Demográfico 2022, IBGE Cidades, PNAD Contínua 2022), SIDRA e imprensa regional. Documento de caráter estimativo.`;
 }
 
 /* ============================================================
@@ -742,7 +876,7 @@ function baixarPDF() {
   const nomeCidade = (dadosMunicipio?.nome || 'Cidade').replace(/\s+/g, '_');
 
   const opt = {
-    margin: [8, 8, 8, 8],
+    margin: [0, 0, 0, 0],
     filename: `Estudo_Viabilidade_${nomeCidade}.pdf`,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2, useCORS: true, letterRendering: true },
