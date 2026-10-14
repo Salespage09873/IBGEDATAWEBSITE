@@ -10,10 +10,11 @@
   :root {
     --azul-getit: #1a2b5c;
     --rosa-getit: #c2185b;
-    --verde-getit: #4caf50;
-    --laranja-getit: #ff9800;
+    --verde-getit: #a4c400;
+    --laranja-getit: #f7941d;
     --amarelo-getit: #ffeb3b;
-    --roxo-getit: #9c27b0;
+    --roxo-getit: #7b2d8e;
+    --vermelho-getit: #e30613;
     --texto: #1f2937;
     --texto-suave: #4b5563;
     --cinza-claro: #f9fafb;
@@ -79,7 +80,7 @@
     font-weight: 600;
     cursor: pointer;
   }
-  .pdf-btn:hover { background: #388e3c; }
+  .pdf-btn:hover { background: #8aab00; }
 
   .page {
     width: 210mm;
@@ -93,24 +94,16 @@
   }
 
   .header-getit {
-    padding: 14mm 16mm 8mm;
+    padding: 12mm 16mm 6mm;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 1px solid var(--borda);
+    align-items: center;
   }
-  .logo-getit {
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    line-height: 1;
+  .logo-getit img {
+    height: 50px;
+    width: auto;
+    display: block;
   }
-  .logo-getit .g1 { color: var(--verde-getit); }
-  .logo-getit .e  { color: var(--laranja-getit); }
-  .logo-getit .t  { color: var(--azul-getit); }
-  .logo-getit .i  { color: var(--rosa-getit); }
-  .logo-getit .t2 { color: var(--roxo-getit); }
 
   .header-info {
     text-align: right;
@@ -152,7 +145,7 @@
     margin-bottom: 4px;
   }
   .titulo-estudo .nome-cidade {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 800;
     color: var(--azul-getit);
     margin-bottom: 4px;
@@ -352,7 +345,7 @@
 
   <div class="header-getit">
     <div class="logo-getit">
-      <span class="g1">g</span><span class="e">e</span><span class="t">t</span><span class="i">i</span><span class="t2">t</span>
+      <img src="logo-getit.png" alt="Get it" />
     </div>
     <div class="header-info">
       <div class="titulo">Estudo de Viabilidade</div>
@@ -491,9 +484,6 @@ const RENDA_PC_UF_2022 = {
   'SE': 1300, 'TO': 1500
 };
 
-/* ============================================================
-   FORMATAÇÃO
-   ============================================================ */
 function formatNumber(n) {
   if (n === undefined || n === null || isNaN(n)) return '—';
   return Number(n).toLocaleString('pt-BR');
@@ -507,9 +497,6 @@ function formatDecimal(n, casas = 2) {
   return Number(n).toLocaleString('pt-BR', { minimumFractionDigits: casas, maximumFractionDigits: casas });
 }
 
-/* ============================================================
-   API IBGE — LOCALIDADES
-   ============================================================ */
 async function buscarMunicipio(nome) {
   const nomeLimpo = nome
     .toLowerCase()
@@ -535,9 +522,6 @@ async function buscarMunicipio(nome) {
   return encontrados[0];
 }
 
-/* ============================================================
-   API SIDRA — POPULAÇÃO 2022 (Tabela 9514, variável 93)
-   ============================================================ */
 async function buscarPopulacao2022(codigo) {
   const url = `https://apisidra.ibge.gov.br/values/t/9514/n6/${codigo}/v/93/p/2022`;
   const r = await fetch(url);
@@ -546,9 +530,6 @@ async function buscarPopulacao2022(codigo) {
   return linhas[1] ? parseFloat(linhas[1].V) : null;
 }
 
-/* ============================================================
-   API SIDRA — POPULAÇÃO 2010 (Tabela 200, variável 93)
-   ============================================================ */
 async function buscarPopulacao2010(codigo) {
   const url = `https://apisidra.ibge.gov.br/values/t/200/n6/${codigo}/v/93/p/2010`;
   const r = await fetch(url);
@@ -557,9 +538,6 @@ async function buscarPopulacao2010(codigo) {
   return linhas[1] ? parseFloat(linhas[1].V) : null;
 }
 
-/* ============================================================
-   API SIDRA — POPULAÇÃO ESTIMADA (Tabela 6579, variável 9324)
-   ============================================================ */
 async function buscarPopulacaoEstimada(codigo) {
   for (const ano of [2025, 2024, 2023]) {
     const url = `https://apisidra.ibge.gov.br/values/t/6579/n6/${codigo}/v/9324/p/${ano}`;
@@ -575,9 +553,6 @@ async function buscarPopulacaoEstimada(codigo) {
   return null;
 }
 
-/* ============================================================
-   API SIDRA — DOMICÍLIOS 2022 (Tabela 9514, variável 1000094)
-   ============================================================ */
 async function buscarDomicilios(codigo) {
   const url = `https://apisidra.ibge.gov.br/values/t/9514/n6/${codigo}/v/1000094/p/2022`;
   const r = await fetch(url);
@@ -586,9 +561,6 @@ async function buscarDomicilios(codigo) {
   return linhas[1] ? parseFloat(linhas[1].V) : null;
 }
 
-/* ============================================================
-   API SIDRA — ÁREA TERRITORIAL (Tabela 9514, variável 1000092)
-   ============================================================ */
 async function buscarArea(codigo) {
   const url = `https://apisidra.ibge.gov.br/values/t/9514/n6/${codigo}/v/1000092/p/2022`;
   const r = await fetch(url);
@@ -597,9 +569,6 @@ async function buscarArea(codigo) {
   return linhas[1] ? parseFloat(linhas[1].V) : null;
 }
 
-/* ============================================================
-   RENDA — Censo 2022 por UF
-   ============================================================ */
 function buscarRenda(uf) {
   const valor = RENDA_PC_UF_2022[uf] || 1540;
   return {
@@ -608,9 +577,6 @@ function buscarRenda(uf) {
   };
 }
 
-/* ============================================================
-   GERAR RELATÓRIO
-   ============================================================ */
 async function gerarRelatorio() {
   const input = document.getElementById('addressInput');
   const btn = document.getElementById('btnPesquisar');
@@ -659,23 +625,12 @@ async function gerarRelatorio() {
     }
 
     dadosMunicipio = {
-      codigo,
-      nome: nomeOficial,
-      uf: ufSigla,
-      populacao: pop,
-      populacao2010: pop2010,
-      populacaoEstimada: popEst,
-      domicilios: domVal,
-      pea,
-      publicoAlvo,
-      rendaPerCapita: rendaPC,
-      rendaMedia,
-      rendaFonte: rendaInfo.fonte,
-      area: areaKm2,
-      densidade,
-      moradoresPorDomicilio: 2.65,
-      crescimento,
-      variacao
+      codigo, nome: nomeOficial, uf: ufSigla,
+      populacao: pop, populacao2010: pop2010, populacaoEstimada: popEst,
+      domicilios: domVal, pea, publicoAlvo,
+      rendaPerCapita: rendaPC, rendaMedia, rendaFonte: rendaInfo.fonte,
+      area: areaKm2, densidade, moradoresPorDomicilio: 2.65,
+      crescimento, variacao
     };
 
     atualizarInterface();
@@ -694,9 +649,6 @@ async function gerarRelatorio() {
   }
 }
 
-/* ============================================================
-   ATUALIZAR INTERFACE
-   ============================================================ */
 function atualizarInterface() {
   const d = dadosMunicipio;
   if (!d) return;
@@ -868,9 +820,6 @@ function atualizarInterface() {
   `;
 }
 
-/* ============================================================
-   BAIXAR PDF
-   ============================================================ */
 function baixarPDF() {
   const elemento = document.getElementById('report');
   const nomeCidade = (dadosMunicipio?.nome || 'Cidade').replace(/\s+/g, '_');
