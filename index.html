@@ -12,17 +12,30 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#e5e7eb;padding:24px 16px 60px;color:var(--texto)}
+
 .barra-topo{max-width:900px;margin:0 auto 20px;display:flex;gap:10px}
 .barra-topo input{flex:1;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px}
 .barra-topo button{padding:12px 20px;background:var(--azul);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer}
 .barra-topo button:hover{background:#0f1d42}
+
 .pdf-wrap{max-width:900px;margin:0 auto 20px;text-align:right}
 .pdf-wrap button{padding:10px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer}
+
 .folha{width:210mm;min-height:297mm;margin:0 auto 24px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.12);display:flex;flex-direction:column}
-.cabecalho{padding:12mm 16mm 6mm;display:flex;justify-content:space-between;align-items:center}
-.cabecalho img{height:70px}
-.cabecalho .info{text-align:right;font-size:10px;color:var(--suave)}
-.cabecalho .info .tit{font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--rosa)}
+
+/* ===== LOGO BEM MAIOR — FORÇADO ===== */
+.cabecalho{padding:12mm 16mm 6mm;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.cabecalho .logo-box{flex:0 0 auto}
+.cabecalho .logo-box img{
+  height:110px !important;
+  width:auto !important;
+  max-height:110px !important;
+  display:block !important;
+}
+.cabecalho .info{text-align:right;font-size:10px;color:var(--suave);flex:1}
+.cabecalho .info .tit{font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--rosa);font-size:11px}
+.cabecalho .info .sub{font-size:11px;color:var(--suave);margin-top:2px}
+
 .barra-cores{height:6px;display:flex}
 .barra-cores span{flex:1}
 .barra-cores span:nth-child(1){background:var(--verde)}
@@ -31,16 +44,19 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#e5e7eb;padding:24px 16p
 .barra-cores span:nth-child(4){background:var(--azul)}
 .barra-cores span:nth-child(5){background:var(--rosa)}
 .barra-cores span:nth-child(6){background:#7b2d8e}
+
 .titulo{padding:8mm 16mm 0;text-align:center}
 .titulo .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--rosa)}
 .titulo .cidade{font-size:28px;font-weight:800;color:var(--azul);margin-top:4px}
 .titulo .sub{font-size:12px;font-weight:700;color:var(--suave);margin-top:4px}
 .titulo .det{font-size:10px;color:var(--suave);margin-top:2px}
+
 .conteudo{padding:8mm 16mm 12mm;flex:1}
 h2{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--rosa);margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--borda)}
 h3{font-size:14px;font-weight:700;color:var(--azul);margin:12px 0 6px}
 h4{font-size:12px;font-weight:700;color:var(--azul);margin:10px 0 4px}
 p{font-size:10.5px;line-height:1.5;color:var(--suave);margin-bottom:6px}
+
 .cards{display:grid;grid-template-columns:repeat(4,1fr);margin:12px 0 16px;border:1px solid var(--borda);border-radius:6px;overflow:hidden}
 .card{padding:12px 8px;text-align:center;border-right:1px solid var(--borda);border-top:3px solid var(--azul)}
 .card:last-child{border-right:none}
@@ -50,26 +66,35 @@ p{font-size:10.5px;line-height:1.5;color:var(--suave);margin-bottom:6px}
 .card:nth-child(4){border-top-color:var(--rosa)}
 .card .val{font-size:20px;font-weight:800;color:var(--azul);line-height:1.1}
 .card .lab{font-size:8.5px;font-weight:700;text-transform:uppercase;color:var(--suave);margin-top:4px}
+
 table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:12px;border:1px solid var(--borda)}
 th{background:var(--azul);color:#fff;text-align:left;padding:7px 8px;font-weight:700;font-size:9.5px;text-transform:uppercase}
 td{padding:6px 8px;border-bottom:1px solid var(--borda);color:var(--suave)}
 tr:nth-child(even) td{background:var(--cinza)}
 td:first-child{font-weight:700;color:var(--azul)}
+
 .entorno{border-left:4px solid var(--verde);background:var(--cinza);padding:10px 12px;margin-bottom:8px}
 .entorno.l{border-left-color:var(--laranja)}
 .entorno.r{border-left-color:var(--rosa)}
 .entorno h4{font-size:11px;margin-bottom:4px}
 .entorno p{font-size:10px;margin:0}
-.nota{font-size:9px;color:#999;font-style:italic;margin-top:4px}
+
+.nota{font-size:9px;color:#999;font-style:italic;margin-top:4px;line-height:1.4}
+
 .rodape{margin-top:auto;font-size:8.5px;color:var(--suave)}
 .rodape .barra-cores{height:4px}
 .rodape .linha{display:flex;justify-content:space-between;padding:6px 16mm 8px}
+
 .load{text-align:center;padding:40px;color:var(--suave)}
 .erro{text-align:center;padding:20px;color:#dc2626}
+
 @media(max-width:760px){
   .folha{width:100%}
   .cards{grid-template-columns:repeat(2,1fr)}
   .barra-topo{flex-direction:column}
+  .cabecalho{flex-direction:column;align-items:flex-start}
+  .cabecalho .info{text-align:left}
+  .cabecalho .logo-box img{height:80px !important}
 }
 @media print{
   body{background:#fff;padding:0}
@@ -81,7 +106,7 @@ td:first-child{font-weight:700;color:var(--azul)}
 <body>
 
 <div class="barra-topo">
-  <input id="cidade" type="text" placeholder="Digite o endereço ou cidade (ex: Av. Paulista 1000, São Paulo)" value="Capão da Canoa, RS">
+  <input id="cidade" type="text" placeholder="Digite o endereço ou cidade" value="Capão da Canoa, RS">
   <button id="btnBuscar" onclick="gerarRelatorio()">Pesquisar</button>
 </div>
 
@@ -94,10 +119,12 @@ td:first-child{font-weight:700;color:var(--azul)}
 
 <div id="folha" class="folha" style="display:none">
   <div class="cabecalho">
-    <img src="logo-getit.png" alt="Get it">
+    <div class="logo-box">
+      <img src="logo-getit.png" alt="Get it">
+    </div>
     <div class="info">
       <div class="tit">Estudo de Viabilidade</div>
-      <div id="cabCidade">—</div>
+      <div class="sub" id="cabCidade">—</div>
     </div>
   </div>
   <div class="barra-cores"><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -125,7 +152,7 @@ td:first-child{font-weight:700;color:var(--azul)}
     <h3>Indicadores Demográficos</h3>
     <p>Cidade toda: população do Censo 2022 (IBGE). Demais indicadores e raios: estimados por proporção.</p>
     <table><thead><tr><th>Indicador</th><th>Cidade toda</th><th>500 m</th><th>1 km</th><th>2 km</th></tr></thead><tbody id="tDem"></tbody></table>
-    <p class="nota">*População por raio é estimativa proporcional. Para dados exatos, é necessária análise por setores censitários (GIS).</p>
+    <p class="nota">*População por raio é estimativa proporcional sobre a área do município. Para valores exatos por endereço, seria necessário o cruzamento com setores censitários do IBGE (análise GIS).</p>
 
     <h2>Público-Alvo</h2>
     <h3>Potencial de Mercado - Classes B1 e B2</h3>
@@ -161,9 +188,6 @@ td:first-child{font-weight:700;color:var(--azul)}
 </div>
 
 <script>
-/* ============================================================
-   RENDA PER CAPITA POR UF — Censo 2022 (fallback)
-   ============================================================ */
 const RENDA_UF = {AC:1127,AL:1050,AP:1170,AM:1163,BA:1250,CE:1210,DF:2913,ES:1800,GO:1720,MA:1050,MT:1836,MS:1790,MG:1660,PA:1170,PB:1160,PR:1900,PE:1240,PI:1120,RJ:2040,RN:1330,RS:2087,RO:1480,RR:1350,SC:2100,SP:2350,SE:1300,TO:1500};
 
 const fmtN = n => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-BR');
@@ -172,37 +196,45 @@ const fmtD = (n,c=2) => (n==null||isNaN(n))?'—':Number(n).toLocaleString('pt-B
 const fmtP = (n,t) => (t>0)?((n/t)*100).toFixed(1).replace('.',',')+'%':'—';
 
 /* ============================================================
-   1. GEOCODING POR ENDEREÇO (Nominatim)
+   GEOCODING
    ============================================================ */
 async function geocodificar(endereco){
   const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(endereco)}&format=json&addressdetails=1&limit=1&countrycodes=br`;
-  const r = await fetch(url, { headers: { 'User-Agent': 'EstudoViabilidadeGetIt/1.0' } });
+  const r = await fetch(url);
   if(!r.ok) throw new Error('Erro ao buscar endereço');
   const dados = await r.json();
   if(!dados.length) throw new Error('Endereço não encontrado');
   const d = dados[0];
   const addr = d.address || {};
   const cidade = addr.city || addr.town || addr.village || addr.municipality || '';
-  const uf = addr.state_code || addr['ISO3166-2-lvl4']?.replace('BR-','') || '';
+  const uf = (addr['ISO3166-2-lvl4']||'').replace('BR-','') || addr.state_code || '';
   return { lat: d.lat, lon: d.lon, cidade, uf, display: d.display_name };
 }
 
 /* ============================================================
-   2. BUSCAR MUNICÍPIO NO IBGE
+   BUSCAR MUNICÍPIO
    ============================================================ */
 async function buscaMunicipio(nome, uf){
   const n = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
   const todos = await (await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/municipios')).json();
   let achados = todos.filter(m => 
-    m.nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(n)
+    m.nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'') === n
   );
-  if(uf) achados = achados.filter(m => m.microrregiao?.mesorregiao?.UF?.sigla === uf);
+  if(!achados.length){
+    achados = todos.filter(m => 
+      m.nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(n)
+    );
+  }
+  if(uf) {
+    const filtrados = achados.filter(m => m.microrregiao?.mesorregiao?.UF?.sigla === uf);
+    if(filtrados.length) achados = filtrados;
+  }
   if(!achados.length) throw new Error('Município não encontrado no IBGE');
   return achados[0];
 }
 
 /* ============================================================
-   3. SIDRA — População, Domicílios
+   SIDRA
    ============================================================ */
 async function sidra(tabela, codigo, variavel, periodo){
   try{
@@ -214,39 +246,48 @@ async function sidra(tabela, codigo, variavel, periodo){
 }
 
 /* ============================================================
-   4. ÁREA E DENSIDADE — API CIDADES@ (IBGE)
-   Tenta múltiplas fontes
+   ÁREA TERRITORIAL — MÚLTIPLAS FONTES
+   1) SIDRA tabela 1301 var 593 (Censo 2022 área)
+   2) SIDRA tabela 4714 (Censo 2022 área + densidade)
+   3) Cálculo por densidade (fallback)
    ============================================================ */
-async function buscarAreaDensidade(codigo){
-  // Tenta tabela 4714 (Censo 2022 - Área territorial e densidade)
-  const area = await sidra(4714, codigo, 614, 2022);
-  const dens = await sidra(4714, codigo, 615, 2022);
-  if(area && area > 0) return { area, dens: dens || null, fonte: 'Censo 2022 (tabela 4714)' };
+async function buscarArea(codigo){
+  // Fonte 1: tabela 4714
+  let v = await sidra(4714, codigo, 614, 2022);
+  if(v && v > 0) return { area: v, fonte: 'Censo 2022 (IBGE)' };
+  
+  // Fonte 2: tabela 1301
+  v = await sidra(1301, codigo, 593, 2022);
+  if(v && v > 0) return { area: v, fonte: 'Censo 2022 (IBGE)' };
+  
+  // Fonte 3: tabela 1301 período mais recente
+  v = await sidra(1301, codigo, 593, 2021);
+  if(v && v > 0) return { area: v, fonte: 'IBGE' };
 
-  // Tenta tabela 1301 (área territorial)
-  const area2 = await sidra(1301, codigo, 593, 2022);
-  if(area2 && area2 > 0) return { area: area2, dens: null, fonte: 'Censo 2022 (tabela 1301)' };
-
-  return { area: null, dens: null, fonte: null };
+  return { area: null, fonte: null };
 }
 
 /* ============================================================
-   5. RENDA MUNICIPAL
+   DENSIDADE — SIDRA tabela 4714 var 615
+   ============================================================ */
+async function buscarDensidade(codigo){
+  let v = await sidra(4714, codigo, 615, 2022);
+  if(v && v > 0) return v;
+  v = await sidra(1301, codigo, 614, 2022);
+  if(v && v > 0) return v;
+  return null;
+}
+
+/* ============================================================
+   RENDA MUNICIPAL
    ============================================================ */
 async function buscarRendaMunicipal(codigo, uf){
-  // 1) Tenta tabela 10295 (Censo 2022)
   let v = await sidra(10295, codigo, 13432, 2022);
   if(v && v > 0) return { valor: Math.round(v), fonte: 'Censo 2022 — rendimento domiciliar per capita' };
-
-  // 2) Tenta tabela 10296
   v = await sidra(10296, codigo, 13433, 2022);
   if(v && v > 0) return { valor: Math.round(v), fonte: 'Censo 2022 — rendimento médio mensal' };
-
-  // 3) Tenta tabela 3566 (2010) ajustada IPCA
   v = await sidra(3566, codigo, 2033, 2010);
   if(v && v > 0) return { valor: Math.round(v * 1.65), fonte: 'Censo 2010 ajustado IPCA' };
-
-  // 4) Fallback UF
   return { valor: RENDA_UF[uf] || 1540, fonte: `Censo 2022 — renda per capita (${uf})` };
 }
 
@@ -270,38 +311,43 @@ async function gerarRelatorio(){
     try {
       geo = await geocodificar(input);
     } catch(e) {
-      // Se falhar geocoding, tenta tratar como nome de cidade direto
       geo = { cidade: input, uf: '', display: input };
     }
 
-    // 2. Busca município
+    // 2. Município IBGE
     const mun = await buscaMunicipio(geo.cidade, geo.uf);
     const cod = mun.id;
     const uf = mun.microrregiao?.mesorregiao?.UF?.sigla || geo.uf || '—';
 
-    // 3. Busca dados em paralelo
-    const [p22, p10, pEst, dom, areaInfo, rendaInfo] = await Promise.all([
+    // 3. Dados em paralelo
+    const [p22, p10, pEst, dom, areaInfo, densInfo, rendaInfo] = await Promise.all([
       sidra(9514, cod, 93, 2022),
       sidra(200, cod, 93, 2010),
       sidra(6579, cod, 9324, 2025).then(v=>v||sidra(6579,cod,9324,2024)),
       sidra(9514, cod, 1000094, 2022),
-      buscarAreaDensidade(cod),
+      buscarArea(cod),
+      buscarDensidade(cod),
       buscarRendaMunicipal(cod, uf)
     ]);
 
-    // 4. Calcula
+    // 4. Cálculos
     const pop = p22 || 0;
     const d = dom || Math.round(pop/2.65);
     const pea = Math.round(pop*0.5);
     const pub = Math.round(d*0.2);
     const rendaPC = rendaInfo.valor;
     const renda = Math.round(rendaPC*2.65);
-    const area = areaInfo.area || (pop/646.39);
-    const dens = areaInfo.dens || (area>0 ? pop/area : 0);
+    const area = areaInfo.area || null;
+    const dens = densInfo || (area && pop ? pop/area : null);
     const cresc = (p10 && pop) ? ((pop/p10)-1)*100 : null;
     const popEst = pEst || Math.round(pop*1.04);
 
-    dados = {cod, nome:mun.nome, uf, pop, p10, popEst, dom:d, pea, pub, rendaPC, renda, rendaFonte:rendaInfo.fonte, area, dens, areaFonte:areaInfo.fonte, cresc, geo};
+    dados = {
+      cod, nome:mun.nome, uf, pop, p10, popEst, dom:d, pea, pub,
+      rendaPC, renda, rendaFonte:rendaInfo.fonte,
+      area, dens, areaFonte:areaInfo.fonte,
+      cresc, geo
+    };
     render();
     document.getElementById('load').style.display = 'none';
     document.getElementById('folha').style.display = 'flex';
@@ -318,14 +364,14 @@ function render(){
   const d = dados;
   const p500=0.008, p1k=0.032, p2k=0.128;
 
-  document.getElementById('cabCidade').textContent = `Estudo de Viabilidade | ${d.nome} - ${d.uf}`;
+  document.getElementById('cabCidade').textContent = `${d.nome} - ${d.uf}`;
   document.getElementById('titCidade').textContent = d.nome;
   document.getElementById('titSub').textContent = `Município de ${d.nome} - ${d.uf}`;
   document.getElementById('titDet').textContent = `Código IBGE ${d.cod}`;
   document.getElementById('nmMun').textContent = d.nome;
 
   document.getElementById('txtRegiao').innerHTML =
-    `Análise de mercado e dados demográficos para <strong>${d.nome}</strong>, no estado do ${d.uf}. O público-alvo foi ampliado para a cidade toda, com a população do Censo 2022 do IBGE. Fora a população da cidade, os valores são estimativas calculadas a partir de médias do município e do estado.`;
+    `Análise de mercado e dados demográficos para <strong>${d.nome}</strong>, no estado do ${d.uf}. O público-alvo foi ampliado para a cidade toda, com a população do Censo 2022 do IBGE.`;
 
   document.getElementById('cPop').textContent = fmtN(d.pop);
   document.getElementById('cPea').textContent = fmtN(d.pea);
@@ -334,7 +380,7 @@ function render(){
 
   document.getElementById('tDem').innerHTML = `
     <tr><td>População</td><td>${fmtN(d.pop)}</td><td>${fmtN(Math.round(d.pop*p500))}</td><td>${fmtN(Math.round(d.pop*p1k))}</td><td>${fmtN(Math.round(d.pop*p2k))}</td></tr>
-    <tr><td>Densidade (hab/km²)</td><td>${fmtN(Math.round(d.dens))}</td><td>${fmtN(Math.round(d.dens))}</td><td>${fmtN(Math.round(d.dens))}</td><td>${fmtN(Math.round(d.dens))}</td></tr>
+    <tr><td>Densidade (hab/km²)</td><td>${fmtN(Math.round(d.dens||0))}</td><td>${fmtN(Math.round(d.dens||0))}</td><td>${fmtN(Math.round(d.dens||0))}</td><td>${fmtN(Math.round(d.dens||0))}</td></tr>
     <tr><td>Domicílios</td><td>${fmtN(d.dom)}</td><td>${fmtN(Math.round(d.dom*p500))}</td><td>${fmtN(Math.round(d.dom*p1k))}</td><td>${fmtN(Math.round(d.dom*p2k))}</td></tr>
     <tr><td>PEA (50%)</td><td>${fmtN(d.pea)}</td><td>${fmtN(Math.round(d.pea*p500))}</td><td>${fmtN(Math.round(d.pea*p1k))}</td><td>${fmtN(Math.round(d.pea*p2k))}</td></tr>
     <tr><td>Domicílios B1+B2 (20%)</td><td>${fmtN(d.pub)}</td><td>${fmtN(Math.round(d.pub*p500))}</td><td>${fmtN(Math.round(d.pub*p1k))}</td><td>${fmtN(Math.round(d.pub*p2k))}</td></tr>
@@ -342,20 +388,20 @@ function render(){
 
   // Faixas etárias com percentual
   const fx = {
-    'Primeira infância (0-4 anos)': {n: Math.round(d.pop*0.055), pct: 5.5},
-    'Crianças e pré-adolescentes (5-14 anos)': {n: Math.round(d.pop*0.135), pct: 13.5},
-    'Adolescentes (15-19 anos)': {n: Math.round(d.pop*0.07), pct: 7.0},
-    'Adultos jovens (20-24 anos)': {n: Math.round(d.pop*0.075), pct: 7.5},
-    'Adultos (25-34 anos)': {n: Math.round(d.pop*0.155), pct: 15.5}
+    'Primeira infância (0-4 anos)': Math.round(d.pop*0.055),
+    'Crianças e pré-adolescentes (5-14 anos)': Math.round(d.pop*0.135),
+    'Adolescentes (15-19 anos)': Math.round(d.pop*0.07),
+    'Adultos jovens (20-24 anos)': Math.round(d.pop*0.075),
+    'Adultos (25-34 anos)': Math.round(d.pop*0.155)
   };
   let linhas = '';
   for(const k in fx){
     const v = fx[k];
-    linhas += `<tr><td>${k}</td><td>${fmtP(v.n, d.pop)}</td><td>${fmtN(Math.round(v.n*p500))}</td><td>${fmtN(Math.round(v.n*p1k))}</td><td>${fmtN(Math.round(v.n*p2k))}</td></tr>`;
+    linhas += `<tr><td>${k}</td><td>${fmtP(v, d.pop)}</td><td>${fmtN(Math.round(v*p500))}</td><td>${fmtN(Math.round(v*p1k))}</td><td>${fmtN(Math.round(v*p2k))}</td></tr>`;
   }
   document.getElementById('tFaixa').innerHTML = linhas;
 
-  const tot = Object.values(fx).slice(1).reduce((a,b)=>a+b.n,0);
+  const tot = fx['Crianças e pré-adolescentes (5-14 anos)']+fx['Adolescentes (15-19 anos)']+fx['Adultos jovens (20-24 anos)']+fx['Adultos (25-34 anos)'];
   const pr = {
     'Conservador (15%)': Math.round(tot*0.15),
     'Moderado (25%)': Math.round(tot*0.25),
@@ -368,7 +414,6 @@ function render(){
   }
   document.getElementById('tProj').innerHTML = linhas;
 
-  // Crescimento 2010-2022 (mantido, mas mostrando período)
   const cresc = d.cresc!=null ? `${d.cresc>=0?'+':''}${fmtD(d.cresc)}% (2010→2022)` : '—';
 
   document.getElementById('tMun').innerHTML = `
@@ -376,8 +421,8 @@ function render(){
     <tr><td>População (Censo 2022)</td><td>${fmtN(d.pop)}</td></tr>
     <tr><td>População estimada 2025</td><td>${fmtN(d.popEst)}</td></tr>
     <tr><td>Crescimento 2010-2022</td><td>${cresc}</td></tr>
-    <tr><td>Área territorial</td><td>${fmtD(d.area,3)} km²</td></tr>
-    <tr><td>Densidade demográfica (2022)</td><td>${fmtD(d.dens)} hab/km²</td></tr>
+    <tr><td>Área territorial</td><td>${d.area ? fmtD(d.area,3)+' km²' : '—'}</td></tr>
+    <tr><td>Densidade demográfica (2022)</td><td>${d.dens ? fmtD(d.dens)+' hab/km²' : '—'}</td></tr>
     <tr><td>Média de moradores por residência</td><td>2,65</td></tr>
     <tr><td>Rendimento domiciliar per capita</td><td>${fmtM(d.rendaPC)}</td></tr>`;
 
@@ -389,7 +434,7 @@ function render(){
   document.getElementById('e3').textContent = `Além do movimento sazonal, o crescimento da população residente traz novas demandas por moradia, serviços, mobilidade e infraestrutura ao longo do ano.`;
 
   document.getElementById('tPrem').innerHTML = `
-    <tr><td>Densidade</td><td>${fmtD(d.dens)} hab/km² (${d.areaFonte || 'população ÷ área'})</td></tr>
+    <tr><td>Densidade</td><td>${d.dens ? fmtD(d.dens)+' hab/km²' : '—'} (${d.areaFonte || 'IBGE'})</td></tr>
     <tr><td>Moradores por domicílio</td><td>2,65</td></tr>
     <tr><td>Renda domiciliar</td><td>${fmtM(d.rendaPC)} (per capita) x 2,65 = ${fmtM(d.renda)}</td></tr>
     <tr><td>Fonte da renda</td><td>${d.rendaFonte}</td></tr>
